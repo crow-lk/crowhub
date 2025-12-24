@@ -27,7 +27,7 @@ class PaymentsRelationManager extends RelationManager
                     ->numeric()
                     ->minValue(0.01)
                     ->required()
-                    ->prefix('$'),
+                    ->prefix('LKR '),
                 Forms\Components\Select::make('type')
                     ->options([
                         'advance' => 'Advance',
@@ -60,7 +60,7 @@ class PaymentsRelationManager extends RelationManager
             ->recordTitleAttribute('amount')
             ->columns([
                 Tables\Columns\TextColumn::make('amount')
-                    ->money('usd')
+                    ->money('lkr')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type')
                     ->badge()

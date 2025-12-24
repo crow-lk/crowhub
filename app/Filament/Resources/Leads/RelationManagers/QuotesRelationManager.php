@@ -39,7 +39,7 @@ class QuotesRelationManager extends RelationManager
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total')
-                    ->money('usd')
+                    ->money('lkr')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('valid_until')
                     ->date()

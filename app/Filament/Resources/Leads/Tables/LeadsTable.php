@@ -50,7 +50,7 @@ class LeadsTable
                 TextColumn::make('pending_amount')
                     ->state(fn ($record) => $record->financialSummary()['pending'])
                     ->label('Pending')
-                    ->money('usd')
+                    ->money('lkr')
                     ->sortable(false),
                 TextColumn::make('created_at')
                     ->date()

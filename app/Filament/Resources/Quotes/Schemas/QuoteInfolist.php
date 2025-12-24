@@ -32,13 +32,13 @@ class QuoteInfolist
                             ->date()
                             ->label('Valid until'),
                         Infolists\Components\TextEntry::make('subtotal')
-                            ->money('usd')
+                            ->money('lkr')
                             ->label('Subtotal'),
                         Infolists\Components\TextEntry::make('discount')
-                            ->money('usd')
+                            ->money('lkr')
                             ->label('Discount'),
                         Infolists\Components\TextEntry::make('total')
-                            ->money('usd')
+                            ->money('lkr')
                             ->label('Total'),
                     ]),
                 Section::make('Items')
@@ -53,10 +53,10 @@ class QuoteInfolist
                                 Infolists\Components\TextEntry::make('qty')
                                     ->label('Qty'),
                                 Infolists\Components\TextEntry::make('unit_price')
-                                    ->money('usd')
+                                    ->money('lkr')
                                     ->label('Unit price'),
                                 Infolists\Components\TextEntry::make('line_total')
-                                    ->money('usd')
+                                    ->money('lkr')
                                     ->label('Line total'),
                                 Infolists\Components\TextEntry::make('description')
                                     ->columnSpanFull()

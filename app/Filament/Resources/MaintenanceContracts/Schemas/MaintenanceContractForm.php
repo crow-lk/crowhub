@@ -28,7 +28,7 @@ class MaintenanceContractForm
                         Forms\Components\TextInput::make('monthly_fee')
                             ->numeric()
                             ->required()
-                            ->prefix('$'),
+                            ->prefix('LKR '),
                         Forms\Components\TextInput::make('billing_day')
                             ->numeric()
                             ->minValue(1)

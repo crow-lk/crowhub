@@ -26,7 +26,7 @@ class ProductsTable
                     ->searchable(),
                 TextColumn::make('price_hint')
                     ->label('Price hint')
-                    ->money('usd')
+                    ->money('lkr')
                     ->sortable()
                     ->toggleable(),
                 ToggleColumn::make('is_active')

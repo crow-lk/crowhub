@@ -28,7 +28,7 @@ class PaymentsTable
                     ->toggleable()
                     ->searchable(),
                 TextColumn::make('amount')
-                    ->money('usd')
+                    ->money('lkr')
                     ->sortable(),
                 TextColumn::make('type')
                     ->badge()

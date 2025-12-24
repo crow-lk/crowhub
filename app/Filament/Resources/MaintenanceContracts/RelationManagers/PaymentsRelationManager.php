@@ -29,7 +29,7 @@ class PaymentsRelationManager extends RelationManager
                     ->native(false),
                 Forms\Components\TextInput::make('amount')
                     ->numeric()
-                    ->prefix('$')
+                    ->prefix('LKR ')
                     ->required(),
                 Forms\Components\DatePicker::make('paid_date')
                     ->required()
@@ -50,7 +50,7 @@ class PaymentsRelationManager extends RelationManager
                     ->date('M Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('amount')
-                    ->money('usd')
+                    ->money('lkr')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('paid_date')
                     ->date()

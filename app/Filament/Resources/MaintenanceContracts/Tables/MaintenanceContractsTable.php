@@ -25,7 +25,7 @@ class MaintenanceContractsTable
                     ->badge()
                     ->sortable(),
                 TextColumn::make('monthly_fee')
-                    ->money('usd')
+                    ->money('lkr')
                     ->label('Monthly fee')
                     ->sortable(),
                 TextColumn::make('billing_day')

@@ -47,15 +47,15 @@ class LeadInfolist
                         Infolists\Components\TextEntry::make('total_quoted')
                             ->label('Quoted')
                             ->state(fn ($record) => $record->financialSummary()['total_quoted'])
-                            ->money('usd'),
+                            ->money('lkr'),
                         Infolists\Components\TextEntry::make('total_paid')
                             ->label('Paid')
                             ->state(fn ($record) => $record->financialSummary()['total_paid'])
-                            ->money('usd'),
+                            ->money('lkr'),
                         Infolists\Components\TextEntry::make('pending')
                             ->label('Pending')
                             ->state(fn ($record) => $record->financialSummary()['pending'])
-                            ->money('usd'),
+                            ->money('lkr'),
                     ]),
                 Section::make('Notes')
                     ->hidden(fn ($record) => blank($record->notes))

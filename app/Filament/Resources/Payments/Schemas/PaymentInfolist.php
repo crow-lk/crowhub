@@ -22,7 +22,7 @@ class PaymentInfolist
                             ->label('Quote #')
                             ->placeholder('-'),
                         Infolists\Components\TextEntry::make('amount')
-                            ->money('usd')
+                            ->money('lkr')
                             ->label('Amount'),
                         Infolists\Components\TextEntry::make('type')
                             ->badge()

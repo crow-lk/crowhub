@@ -4,6 +4,8 @@ namespace App\Filament\Resources\Products\Schemas;
 
 use Filament\Forms;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get as SchemaGet;
+use Filament\Schemas\Components\Utilities\Set as SchemaSet;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 
@@ -21,7 +23,7 @@ class ProductForm
                             ->required()
                             ->maxLength(255)
                             ->live(onBlur: true)
-                            ->afterStateUpdated(function (Forms\Set $set, ?string $state, Forms\Get $get): void {
+                            ->afterStateUpdated(function (SchemaSet $set, ?string $state, SchemaGet $get): void {
                                 if ($get('slug')) {
                                     return;
                                 }
@@ -38,7 +40,7 @@ class ProductForm
                             ->numeric()
                             ->minValue(0)
                             ->step(0.01)
-                            ->prefix('$')
+                            ->prefix('LKR ')
                             ->columnSpan(1),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Active')

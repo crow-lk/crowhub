@@ -29,7 +29,7 @@ class MaintenanceContractRelationManager extends RelationManager
                     ->required(),
                 Forms\Components\TextInput::make('monthly_fee')
                     ->numeric()
-                    ->prefix('$')
+                    ->prefix('LKR ')
                     ->required(),
                 Forms\Components\TextInput::make('billing_day')
                     ->numeric()
@@ -59,7 +59,7 @@ class MaintenanceContractRelationManager extends RelationManager
                     ->badge()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('monthly_fee')
-                    ->money('usd')
+                    ->money('lkr')
                     ->label('Monthly fee'),
                 Tables\Columns\TextColumn::make('billing_day')
                     ->label('Billing day'),

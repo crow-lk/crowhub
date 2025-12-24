@@ -22,7 +22,7 @@ class MaintenanceContractInfolist
                             ->date()
                             ->label('Start date'),
                         Infolists\Components\TextEntry::make('monthly_fee')
-                            ->money('usd')
+                            ->money('lkr')
                             ->label('Monthly fee'),
                         Infolists\Components\TextEntry::make('billing_day')
                             ->label('Billing day'),

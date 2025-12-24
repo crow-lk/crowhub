@@ -34,7 +34,7 @@ class PaymentForm
                             ->numeric()
                             ->required()
                             ->minValue(0.01)
-                            ->prefix('$'),
+                            ->prefix('LKR '),
                         Forms\Components\Select::make('type')
                             ->options(PaymentResource::types())
                             ->required()

@@ -6,6 +6,7 @@ use App\Filament\Resources\Quotes\QuoteResource;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set as SchemaSet;
 use Filament\Schemas\Schema;
 
 class QuoteForm
@@ -39,17 +40,17 @@ class QuoteForm
                     ->components([
                         Forms\Components\TextInput::make('subtotal')
                             ->numeric()
-                            ->prefix('$')
+                            ->prefix('LKR ')
                             ->disabled()
                             ->dehydrated(),
                         Forms\Components\TextInput::make('discount')
                             ->numeric()
-                            ->prefix('$')
+                            ->prefix('LKR ')
                             ->minValue(0)
                             ->default(0),
                         Forms\Components\TextInput::make('total')
                             ->numeric()
-                            ->prefix('$')
+                            ->prefix('LKR ')
                             ->disabled()
                             ->dehydrated(),
                     ]),
@@ -71,7 +72,7 @@ class QuoteForm
                                     ->nullable()
                                     ->columnSpan(2)
                                     ->live()
-                                    ->afterStateUpdated(function (Forms\Set $set, ?int $state): void {
+                                    ->afterStateUpdated(function (SchemaSet $set, ?int $state): void {
                                         $name = $state ? Product::find($state)?->name : null;
                                         $set('product_name', $name);
                                     }),
@@ -89,11 +90,11 @@ class QuoteForm
                                 Forms\Components\TextInput::make('unit_price')
                                     ->numeric()
                                     ->required()
-                                    ->prefix('$'),
+                                    ->prefix('LKR '),
                                 Forms\Components\TextInput::make('line_total')
                                     ->label('Line total')
                                     ->numeric()
-                                    ->prefix('$')
+                                    ->prefix('LKR ')
                                     ->disabled()
                                     ->dehydrated(false),
                             ]),

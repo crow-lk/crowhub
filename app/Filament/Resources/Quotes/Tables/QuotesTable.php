@@ -39,7 +39,7 @@ class QuotesTable
                     })
                     ->sortable(),
                 TextColumn::make('total')
-                    ->money('usd')
+                    ->money('lkr')
                     ->sortable(),
                 TextColumn::make('valid_until')
                     ->date()

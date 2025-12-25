@@ -41,6 +41,7 @@ class QuoteForm
                         Forms\Components\TextInput::make('subtotal')
                             ->numeric()
                             ->prefix('LKR ')
+                            ->default(0)
                             ->disabled()
                             ->dehydrated(),
                         Forms\Components\TextInput::make('discount')
@@ -51,6 +52,7 @@ class QuoteForm
                         Forms\Components\TextInput::make('total')
                             ->numeric()
                             ->prefix('LKR ')
+                            ->default(0)
                             ->disabled()
                             ->dehydrated(),
                     ]),

@@ -22,6 +22,13 @@ class Quote extends Model
         'total',
     ];
 
+    protected $attributes = [
+        'status' => 'draft',
+        'subtotal' => 0,
+        'discount' => 0,
+        'total' => 0,
+    ];
+
     protected function casts(): array
     {
         return [

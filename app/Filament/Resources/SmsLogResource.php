@@ -54,8 +54,8 @@ class SmsLogResource extends Resource
                 TextColumn::make('message')
                     ->label('Message')
                     ->wrap()
-                    ->limit(70)
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->limit(120)
+                    ->tooltip(fn (SmsLog $record): ?string => $record->message),
                 TextColumn::make('provider_response')
                     ->label('Provider response')
                     ->wrap()

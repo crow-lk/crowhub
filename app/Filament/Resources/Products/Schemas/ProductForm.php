@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Products\Schemas;
 
+use App\Models\Product;
 use Filament\Forms;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get as SchemaGet;
@@ -35,6 +36,11 @@ class ProductForm
                             ->maxLength(255)
                             ->unique(ignoreRecord: true)
                             ->helperText('Used in public APIs.'),
+                        Forms\Components\Select::make('type')
+                            ->options(Product::types())
+                            ->required()
+                            ->native(false)
+                            ->default(Product::TYPE_PRODUCT),
                         Forms\Components\TextInput::make('price_hint')
                             ->label('Price hint')
                             ->numeric()

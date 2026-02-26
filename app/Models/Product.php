@@ -10,9 +10,13 @@ class Product extends Model
 {
     use HasFactory;
 
+    public const TYPE_PRODUCT = 'product';
+    public const TYPE_SERVICE = 'service';
+
     protected $fillable = [
         'name',
         'slug',
+        'type',
         'short_description',
         'description',
         'features',
@@ -26,6 +30,14 @@ class Product extends Model
             'features' => 'array',
             'is_active' => 'boolean',
             'price_hint' => 'decimal:2',
+        ];
+    }
+
+    public static function types(): array
+    {
+        return [
+            self::TYPE_PRODUCT => 'Product',
+            self::TYPE_SERVICE => 'Service',
         ];
     }
 

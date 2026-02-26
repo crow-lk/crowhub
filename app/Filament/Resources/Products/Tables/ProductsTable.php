@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Products\Tables;
 
+use App\Models\Product;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -24,6 +25,11 @@ class ProductsTable
                     ->label('Slug')
                     ->toggleable()
                     ->searchable(),
+                TextColumn::make('type')
+                    ->label('Type')
+                    ->formatStateUsing(fn (?string $state): string => Product::types()[$state] ?? 'Unknown')
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('price_hint')
                     ->label('Price hint')
                     ->money('lkr')

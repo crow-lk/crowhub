@@ -66,8 +66,21 @@ class QuoteForm
                             ->minItems(1)
                             ->schema([
                                 Forms\Components\Select::make('product_id')
-                                    ->label('Product')
-                                    ->relationship('product', 'name')
+                                    ->label('Product / Service')
+                                    ->relationship(
+                                        'product',
+                                        'name',
+                                        modifyQueryUsing: fn ($query) => $query
+                                            ->where('is_active', true)
+                                            ->orderBy('name'),
+                                    )
+                                    ->getOptionLabelFromRecordUsing(
+                                        fn (Product $record): string => sprintf(
+                                            '%s (%s)',
+                                            $record->name,
+                                            ucfirst($record->type)
+                                        )
+                                    )
                                     ->searchable()
                                     ->preload()
                                     ->native(false)

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Leads\RelationManagers;
 
 use App\Filament\Resources\Leads\LeadResource;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
@@ -87,6 +88,11 @@ class PaymentsRelationManager extends RelationManager
                 CreateAction::make(),
             ])
             ->recordActions([
+                Action::make('invoice')
+                    ->label('Invoice')
+                    ->icon('heroicon-o-printer')
+                    ->url(fn ($record) => route('admin.payments.invoice', $record))
+                    ->openUrlInNewTab(),
                 EditAction::make(),
                 DeleteAction::make(),
             ])

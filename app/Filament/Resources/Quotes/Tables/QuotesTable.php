@@ -66,6 +66,11 @@ class QuotesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                Action::make('quotation')
+                    ->label('Quotation')
+                    ->icon('heroicon-o-document-text')
+                    ->url(fn ($record) => route('admin.quotes.print', $record))
+                    ->openUrlInNewTab(),
                 Action::make('markSent')
                     ->label('Mark sent')
                     ->color('warning')

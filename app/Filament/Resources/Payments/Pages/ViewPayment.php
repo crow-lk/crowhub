@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Payments\Pages;
 
 use App\Filament\Resources\Payments\PaymentResource;
+use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
@@ -13,6 +14,11 @@ class ViewPayment extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('invoice')
+                ->label('Invoice')
+                ->icon('heroicon-o-printer')
+                ->url(fn () => route('admin.payments.invoice', $this->record))
+                ->openUrlInNewTab(),
             EditAction::make(),
         ];
     }

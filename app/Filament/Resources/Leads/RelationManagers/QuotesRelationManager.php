@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Leads\RelationManagers;
 
 use App\Filament\Resources\Quotes\QuoteResource;
+use Filament\Actions\Action;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables;
@@ -44,6 +45,13 @@ class QuotesRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('valid_until')
                     ->date()
                     ->label('Valid until'),
+            ])
+            ->recordActions([
+                Action::make('quotation')
+                    ->label('Quotation')
+                    ->icon('heroicon-o-document-text')
+                    ->url(fn ($record) => route('admin.quotes.print', $record))
+                    ->openUrlInNewTab(),
             ])
             ->headerActions([]);
     }

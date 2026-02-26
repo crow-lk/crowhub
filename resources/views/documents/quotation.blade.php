@@ -20,7 +20,8 @@
             margin: 0;
             background: var(--bg);
             color: var(--ink);
-            font-family: "Palatino Linotype", "Book Antiqua", Palatino, "Times New Roman", serif;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12px;
         }
         .page {
             max-width: 980px;
@@ -48,8 +49,6 @@
             height: auto;
         }
         .company-name {
-            font-size: 22px;
-            font-weight: 700;
             letter-spacing: 0.4px;
         }
         .company-tagline {
@@ -73,13 +72,11 @@
             margin-top: 28px;
         }
         .doc-title {
-            font-size: 28px;
             text-transform: uppercase;
             letter-spacing: 1.8px;
             color: var(--accent);
         }
         .doc-meta {
-            font-size: 12px;
             color: var(--muted);
             text-align: right;
             line-height: 1.6;
@@ -94,7 +91,6 @@
             margin-top: 28px;
         }
         .section-title {
-            font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 1.2px;
             color: var(--muted);
@@ -112,7 +108,6 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 12px;
-            font-size: 13px;
         }
         th,
         td {
@@ -123,7 +118,6 @@
         th {
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            font-size: 11px;
             color: var(--muted);
             text-align: left;
         }
@@ -137,7 +131,6 @@
         }
         .item-sub {
             color: var(--muted);
-            font-size: 12px;
             margin-top: 4px;
         }
         .totals {
@@ -151,7 +144,6 @@
             display: flex;
             justify-content: space-between;
             padding: 6px 0;
-            font-size: 13px;
         }
         .totals .row strong {
             color: var(--ink);
@@ -162,13 +154,11 @@
             justify-content: space-between;
             align-items: flex-end;
             gap: 24px;
-            font-size: 12px;
             color: var(--muted);
         }
         .signature {
             margin-top: 32px;
             text-align: right;
-            font-size: 12px;
             color: var(--muted);
         }
         .signature-line {
@@ -205,13 +195,13 @@
         <div class="logo-block">
             <img src="{{ asset('images/crowlogo.png') }}" alt="{{ $companyName }} logo">
             <div>
-                <div class="company-name">{{ $companyName }}</div>
+                <div class="company-name h2">{{ $companyName }}</div>
                 @if(!empty($company['tagline']))
-                    <div class="company-tagline">{{ $company['tagline'] }}</div>
+                    <div class="company-tagline text-sm">{{ $company['tagline'] }}</div>
                 @endif
             </div>
         </div>
-        <div class="company-contact">
+        <div class="company-contact text-sm">
             @if(!empty($company['address']))
                 <div>{{ $company['address'] }}</div>
             @endif
@@ -231,8 +221,8 @@
     </header>
 
     <section class="title-block">
-        <div class="doc-title">Quotation</div>
-        <div class="doc-meta">
+        <div class="doc-title h1">Quotation</div>
+        <div class="doc-meta text-sm">
             <div><span>Quote #</span>{{ $quote->quote_no }}</div>
             <div><span>Date</span>{{ $issuedDate?->format('d M Y') }}</div>
             @if($quote->valid_until)
@@ -243,9 +233,9 @@
     </section>
 
     <section class="section">
-        <div class="section-title">Prepared For</div>
-        <div class="panel">
-            <div class="client-name">{{ $lead?->name ?? 'N/A' }}</div>
+        <div class="section-title h3">Prepared For</div>
+        <div class="panel text">
+            <div class="client-name h3">{{ $lead?->name ?? 'N/A' }}</div>
             @if(!empty($lead?->company))
                 <div>{{ $lead->company }}</div>
             @endif
@@ -259,23 +249,23 @@
     </section>
 
     <section class="section">
-        <div class="section-title">Items</div>
-        <table>
+        <div class="section-title h3">Items</div>
+        <table class="text">
             <thead>
             <tr>
                 <th>Description</th>
-                <th class="num">Qty</th>
-                <th class="num">Unit Price</th>
-                <th class="num">Line Total</th>
+                <th class="num text-sm">Qty</th>
+                <th class="num text-sm">Unit Price</th>
+                <th class="num text-sm">Line Total</th>
             </tr>
             </thead>
             <tbody>
             @forelse($quote->items as $item)
                 <tr>
                     <td>
-                        <div class="item-title">{{ $item->product_name }}</div>
+                        <div class="item-title h3">{{ $item->product_name }}</div>
                         @if(!empty($item->description))
-                            <div class="item-sub">{{ $item->description }}</div>
+                            <div class="item-sub text-sm">{{ $item->description }}</div>
                         @endif
                     </td>
                     <td class="num">{{ $item->qty }}</td>
@@ -290,24 +280,30 @@
             </tbody>
         </table>
 
-        <div class="totals">
+        <div class="totals text">
             <div class="row"><span>Subtotal</span><strong>LKR {{ number_format((float) $quote->subtotal, 2) }}</strong></div>
             <div class="row"><span>Discount</span><strong>LKR {{ number_format((float) $quote->discount, 2) }}</strong></div>
             <div class="row"><span>Total</span><strong>LKR {{ number_format((float) $quote->total, 2) }}</strong></div>
         </div>
     </section>
 
-    <div class="footer">
-        <div>
+    <div class="footer text-sm">
+        <div class="text-sm">
             We appreciate the opportunity to work with you.
             @if(!empty($company['email']))
                 Please reach us at {{ $company['email'] }} for any adjustments.
             @endif
         </div>
-        <div class="signature">
-            <div class="signature-line">Authorized Signature</div>
+        <div class="signature text-sm">
+            <div class="signature-line text-sm">Authorized Signature</div>
         </div>
     </div>
 </div>
 </body>
 </html>
+        .h1 { font-size: 16px; font-weight: 700; }
+        .h2 { font-size: 14px; font-weight: 600; }
+        .h3 { font-size: 13px; font-weight: 600; }
+        .text { font-size: 12px; }
+        .text-sm { font-size: 11px; }
+        .note { font-size: 10px; }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Payment extends Model
 {
@@ -37,5 +38,14 @@ class Payment extends Model
     public function quote(): BelongsTo
     {
         return $this->belongsTo(Quote::class);
+    }
+
+    /**
+     * Get the terms and conditions associated with this payment
+     */
+    public function termsAndConditions(): BelongsToMany
+    {
+        return $this->belongsToMany(TermsAndCondition::class, 'payment_terms')
+            ->withTimestamps();
     }
 }

@@ -4,52 +4,69 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Quotation {{ $quote->quote_no }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --ink: #1b1e27;
             --muted: #5f6673;
-            --accent: #2b3752;
+            --accent: #0f4c5c;
+            --accent-light: #1a7f8a;
+            --accent-dark: #0a3640;
             --border: #d7dbe2;
             --paper: #ffffff;
-            --bg: #f3f5f7;
+            --bg: #f4f2ee;
+            --gold: #c9a227;
         }
         * {
             box-sizing: border-box;
         }
-        body {
+        html {
+            height: 100%;
             margin: 0;
-            background: var(--bg);
-            color: var(--ink);
-            font-family: "Times New Roman", Times, serif;
+        }
+        body {
+            font-family: "Open Sans", Helvetica, Arial, sans-serif;
+            background-image: url("images/crowld.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
             font-size: 12px;
         }
         .page {
-            max-width: 980px;
-            margin: 32px auto;
-            background: var(--paper);
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 12px 30px rgba(27, 30, 39, 0.08);
-            padding: 40px 52px 48px;
+            margin: 40;
         }
         .header {
             display: flex;
             justify-content: space-between;
-            gap: 24px;
+            gap: 20px;
             align-items: flex-start;
             border-bottom: 2px solid var(--accent);
-            padding-bottom: 16px;
+            padding-bottom: 12px;
         }
         .logo-block {
             display: flex;
-            gap: 16px;
             align-items: center;
+            gap: 12px;
         }
         .logo-block img {
-            width: 72px;
+            margin-top: 20px;
+            margin-left: 40px;
+            width: 100px;
             height: auto;
+        }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
         }
         .company-name {
             letter-spacing: 0.4px;
+            font-weight: 700;
+            font-size: 22px;
+            font-family: "Open Sans", Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 50%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .company-tagline {
             font-size: 11px;
@@ -67,14 +84,17 @@
         .title-block {
             display: flex;
             justify-content: space-between;
-            gap: 24px;
+            gap: 20px;
             align-items: flex-end;
-            margin-top: 28px;
+            margin-top: 24px;
         }
         .doc-title {
             text-transform: uppercase;
             letter-spacing: 1.8px;
             color: var(--accent);
+            font-size: 20px;
+            font-weight: 700;
+            font-family: "Open Sans", Helvetica, Arial, sans-serif;
         }
         .doc-meta {
             color: var(--muted);
@@ -95,6 +115,8 @@
             letter-spacing: 1.2px;
             color: var(--muted);
             margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 13px;
         }
         .panel {
             border: 1px solid var(--border);
@@ -103,6 +125,7 @@
         .client-name {
             font-weight: 700;
             margin-bottom: 4px;
+            font-size: 14px;
         }
         table {
             width: 100%;
@@ -120,6 +143,7 @@
             letter-spacing: 0.8px;
             color: var(--muted);
             text-align: left;
+            font-size: 11px;
         }
         td.num,
         th.num {
@@ -136,7 +160,7 @@
         .totals {
             margin-top: 16px;
             margin-left: auto;
-            width: 320px;
+            width: 280px;
             border: 1px solid var(--border);
             padding: 12px 16px;
         }
@@ -148,39 +172,45 @@
         .totals .row strong {
             color: var(--ink);
         }
-        .footer {
-            margin-top: 36px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            gap: 24px;
+        .terms {
+            margin-top: 28px;
+        }
+        .terms-title {
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--muted);
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .terms-content {
+            font-size: 11px;
+            line-height: 1;
             color: var(--muted);
         }
         .signature {
-            margin-top: 32px;
             text-align: right;
             color: var(--muted);
         }
         .signature-line {
-            margin-top: 32px;
             border-top: 1px solid var(--border);
             padding-top: 6px;
             display: inline-block;
             min-width: 200px;
             text-align: center;
             color: var(--ink);
+            font-size: 11px;
         }
-        @media print {
-            body {
-                background: #ffffff;
-            }
-            .page {
-                margin: 0;
-                box-shadow: none;
-                border: none;
-                width: 100%;
-                padding: 0;
-            }
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 24px;
+            color: var(--muted);
+            padding-left: 60px;
+            padding-right: 60px;
+            padding-top: 10px;
+            padding-bottom: 40px
         }
     </style>
 </head>
@@ -193,15 +223,9 @@
 <div class="page">
     <header class="header">
         <div class="logo-block">
-            <img src="{{ asset('images/crowlogo.png') }}" alt="{{ $companyName }} logo">
-            <div>
-                <div class="company-name h2">{{ $companyName }}</div>
-                @if(!empty($company['tagline']))
-                    <div class="company-tagline text-sm">{{ $company['tagline'] }}</div>
-                @endif
-            </div>
+            <img src="images/crowlogo.png" alt="{{ $companyName }} logo">
         </div>
-        <div class="company-contact text-sm">
+        <div class="company-contact">
             @if(!empty($company['address']))
                 <div>{{ $company['address'] }}</div>
             @endif
@@ -221,21 +245,21 @@
     </header>
 
     <section class="title-block">
-        <div class="doc-title h1">Quotation</div>
-        <div class="doc-meta text-sm">
-            <div><span>Quote #</span>{{ $quote->quote_no }}</div>
-            <div><span>Date</span>{{ $issuedDate?->format('d M Y') }}</div>
+        <div class="doc-title">Quotation</div>
+        <div class="doc-meta">
+            <div><strong>Quote #:</strong>{{ $quote->quote_no }}</div>
+            <div><strong>Date:</strong>{{ $issuedDate?->format('d M Y') }}</div>
             @if($quote->valid_until)
-                <div><span>Valid Until</span>{{ $quote->valid_until?->format('d M Y') }}</div>
+                <div><strong>Valid Until:</strong>{{ $quote->valid_until?->format('d M Y') }}</div>
             @endif
-            <div><span>Status</span>{{ ucfirst($quote->status) }}</div>
+            <div><strong>Status:</strong>{{ ucfirst($quote->status) }}</div>
         </div>
     </section>
 
     <section class="section">
-        <div class="section-title h3">Prepared For</div>
-        <div class="panel text">
-            <div class="client-name h3">{{ $lead?->name ?? 'N/A' }}</div>
+        <div class="section-title">Bill To</div>
+        <div class="panel">
+            <div class="client-name">{{ $lead?->name ?? 'N/A' }}</div>
             @if(!empty($lead?->company))
                 <div>{{ $lead->company }}</div>
             @endif
@@ -249,23 +273,23 @@
     </section>
 
     <section class="section">
-        <div class="section-title h3">Items</div>
-        <table class="text">
+        <div class="section-title">Items</div>
+        <table>
             <thead>
             <tr>
                 <th>Description</th>
-                <th class="num text-sm">Qty</th>
-                <th class="num text-sm">Unit Price</th>
-                <th class="num text-sm">Line Total</th>
+                <th class="num">Qty</th>
+                <th class="num">Unit Price</th>
+                <th class="num">Amount</th>
             </tr>
             </thead>
             <tbody>
             @forelse($quote->items as $item)
                 <tr>
                     <td>
-                        <div class="item-title h3">{{ $item->product_name }}</div>
+                        <div class="item-title">{{ $item->product_name }}</div>
                         @if(!empty($item->description))
-                            <div class="item-sub text-sm">{{ $item->description }}</div>
+                            <div class="item-sub">{{ $item->description }}</div>
                         @endif
                     </td>
                     <td class="num">{{ $item->qty }}</td>
@@ -280,30 +304,37 @@
             </tbody>
         </table>
 
-        <div class="totals text">
+        <div class="totals">
             <div class="row"><span>Subtotal</span><strong>LKR {{ number_format((float) $quote->subtotal, 2) }}</strong></div>
             <div class="row"><span>Discount</span><strong>LKR {{ number_format((float) $quote->discount, 2) }}</strong></div>
             <div class="row"><span>Total</span><strong>LKR {{ number_format((float) $quote->total, 2) }}</strong></div>
         </div>
     </section>
 
-    <div class="footer text-sm">
-        <div class="text-sm">
-            We appreciate the opportunity to work with you.
-            @if(!empty($company['email']))
-                Please reach us at {{ $company['email'] }} for any adjustments.
-            @endif
+    @if($quote->termsAndConditions->count() > 0)
+    <section class="terms">
+        <div class="terms-title">Terms & Conditions</div>
+        <div class="terms-content">
+            @foreach($quote->termsAndConditions as $index => $term)
+                <p style="@if($term->parent_id) padding-left: 20px; @endif">{{ $term->number ? $term->number . '. ' : '' }}{{ strip_tags($term->content) }}</p>
+            @endforeach
         </div>
-        <div class="signature text-sm">
-            <div class="signature-line text-sm">Authorized Signature</div>
+    </section>
+    @endif
+
+    <div class="footer" style="position: fixed; bottom: 10px; left: 0; right: 0;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
+            <div style="flex: 1;">
+                Thank you for your business.
+                @if(!empty($company['email']))
+                    For questions, contact {{ $company['email'] }}.
+                @endif
+            </div>
+            <div style="text-align: right;">
+                <div style="border-top: 1px solid var(--border); padding-top: 6px; display: inline-block; min-width: 200px; text-align: center; color: var(--ink); font-size: 11px;">Authorized Signature</div>
+            </div>
         </div>
     </div>
 </div>
 </body>
 </html>
-        .h1 { font-size: 16px; font-weight: 700; }
-        .h2 { font-size: 14px; font-weight: 600; }
-        .h3 { font-size: 13px; font-weight: 600; }
-        .text { font-size: 12px; }
-        .text-sm { font-size: 11px; }
-        .note { font-size: 10px; }

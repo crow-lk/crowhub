@@ -6,6 +6,7 @@ use App\Services\QuoteCalculator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Quote extends Model
@@ -53,6 +54,15 @@ class Quote extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    /**
+     * Get the terms and conditions associated with this quote
+     */
+    public function termsAndConditions(): BelongsToMany
+    {
+        return $this->belongsToMany(TermsAndCondition::class, 'quote_terms')
+            ->withTimestamps();
     }
 
     public function recalculateTotals(): Quote

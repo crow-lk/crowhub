@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Payments\Tables;
 
 use App\Filament\Resources\Payments\PaymentResource;
+use App\Models\Payment;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -58,11 +59,10 @@ class PaymentsTable
                     }),
             ])
             ->recordActions([
-                Action::make('invoice')
-                    ->label('Invoice')
+                Action::make('Download PDF')
+                    ->url(fn(Payment $record) => route('admin.payments.invoice.pdf', $record->id))
                     ->icon('heroicon-o-printer')
-                    ->url(fn ($record) => route('admin.payments.invoice', $record))
-                    ->openUrlInNewTab(),
+                    ->label('Invoice'),
                 ViewAction::make(),
                 EditAction::make(),
             ])

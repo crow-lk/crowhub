@@ -235,7 +235,7 @@
     <section class="title-block">
         <div class="doc-title">Quotation</div>
         <div class="doc-meta">
-            <div><strong>Quote # : </strong>{{ $quote->quote_no }}</div>
+            <div><strong>Quote : </strong>{{ $quote->quote_no }}</div>
             <div><strong>Date :</strong>{{ $issuedDate?->format('d M Y') }}</div>
             @if($quote->valid_until)
                 <div><strong>Valid Until :</strong>{{ $quote->valid_until?->format('d M Y') }}</div>

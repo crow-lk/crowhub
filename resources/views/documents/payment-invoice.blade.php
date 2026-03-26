@@ -26,14 +26,6 @@
         }
         body {
             font-family: "Montserrat", Helvetica, Arial, sans-serif;
-            background-color: #f8f7f5;
-            background-image:
-                radial-gradient(circle at 25% 25%, rgba(200, 195, 185, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(200, 195, 185, 0.2) 0%, transparent 50%),
-                repeating-linear-gradient(45deg, transparent 0px, transparent 10px, rgba(200, 195, 185, 0.05) 10px, rgba(200, 195, 185, 0.05) 11px);
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
             font-size: 12px;
         }
         .page {
@@ -220,6 +212,7 @@
     </style>
 </head>
 <body>
+<img src="{{ asset('images/newbg.png') }}" alt="Background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
 @php
     $companyName = $company['name'] ?? config('app.name', 'Crow.lk');
     $invoiceNo = 'INV-' . str_pad((string) $payment->id, 5, '0', STR_PAD_LEFT);

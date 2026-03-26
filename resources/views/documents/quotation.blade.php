@@ -26,10 +26,6 @@
         }
         body {
             font-family: "Montserrat", Helvetica, Arial, sans-serif;
-            background-image: url("images/newbg.png");
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
             font-size: 12px;
         }
         .page {
@@ -223,6 +219,7 @@
     </style>
 </head>
 <body>
+<img src="images/newbg.png" alt="Background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
 @php
     $companyName = $company['name'] ?? config('app.name', 'Crow.lk');
     $issuedDate = $quote->created_at ?? now();

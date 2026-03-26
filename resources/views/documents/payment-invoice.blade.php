@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Invoice {{ $payment->id }}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --ink: #1b1e27;
@@ -25,15 +25,20 @@
             margin: 0; /* Remove default margin */
         }
         body {
-            font-family: "Open Sans", Helvetica, Arial, sans-serif;
-            background-image: url("images/crowld.png");
+            font-family: "Montserrat", Helvetica, Arial, sans-serif;
+            background-color: #f8f7f5;
+            background-image:
+                radial-gradient(circle at 25% 25%, rgba(200, 195, 185, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(200, 195, 185, 0.2) 0%, transparent 50%),
+                repeating-linear-gradient(45deg, transparent 0px, transparent 10px, rgba(200, 195, 185, 0.05) 10px, rgba(200, 195, 185, 0.05) 11px);
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
             font-size: 12px;
         }
         .page {
-            margin: 40;
+            margin: 50;
+            padding-top: 60px;
         }
         .header {
             display: flex;
@@ -60,10 +65,8 @@
         }
         .company-name {
             letter-spacing: 0.4px;
-            font-weight: 700;
             font-size: 22px;
-            font-family: "Open Sans", Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 50%, var(--gold) 100%);
+            font-family: "Montserrat", Helvetica, Arial, sans-serif;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -90,33 +93,31 @@
         }
         .doc-title {
             text-transform: uppercase;
+            text-align: right;
+            font-weight: 700;
             letter-spacing: 1.8px;
             color: var(--accent);
-            font-size: 20px;
-            font-weight: 700;
-            font-family: "Open Sans", Helvetica, Arial, sans-serif;
-            padding-bottom: 10px;
+            font-size: 36px;
+            font-family: "Montserrat", Helvetica, Arial, sans-serif;
+            padding-bottom: 30px;
         }
         .doc-meta {
             color: var(--muted);
             text-align: left;
             line-height: 1.6;
         }
-        .doc-meta span {
-            display: inline-block;
-            min-width: 88px;
+        .doc-meta strong {
             color: var(--ink);
-            font-weight: 600;
         }
         .section {
-            margin-top: 28px;
+            margin-top: 20px;
         }
         .section-title {
             text-transform: uppercase;
             letter-spacing: 1.2px;
-            color: var(--muted);
+            font-weight: bold;
+            color: var(--ink);
             margin-bottom: 8px;
-            font-weight: 600;
             font-size: 13px;
         }
         .panel {
@@ -124,7 +125,6 @@
             padding: 16px;
         }
         .client-name {
-            font-weight: 700;
             margin-bottom: 4px;
             font-size: 14px;
         }
@@ -154,28 +154,37 @@
         .totals {
             margin-top: 16px;
             margin-left: auto;
-            width: 200px;
+            width: 220px;
             border: 1px solid var(--border);
             padding: 12px 16px;
         }
-        .totals .row {
-            display: flex;
-            text-align: right;
-            justify-content: space-between;
+        .totals-row {
+            display: table;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .totals-row .col1,
+        .totals-row .col2 {
+            display: table-cell;
             padding: 6px 0;
         }
-        .totals .row strong {
+        .totals-row .col1 {
+            color: var(--muted);
+            text-align: left;
+        }
+        .totals-row .col2 {
             color: var(--ink);
+            text-align: right;
         }
         .terms {
-            margin-top: 28px;
+            margin-top: 20px;
         }
         .terms-title {
             text-transform: uppercase;
             letter-spacing: 1.2px;
-            color: var(--muted);
+            font-weight: bold;
+            color: var(--ink);
             margin-bottom: 8px;
-            font-weight: 600;
             font-size: 13px;
         }
         .terms-content {
@@ -189,10 +198,10 @@
             align-items: flex-end;
             gap: 24px;
             color: var(--muted);
-            padding-left: 60px;
-            padding-right: 60px;
+            padding-left: 70px;
+            padding-right: 70px;
             padding-top: 10px;
-            padding-bottom: 60px
+            padding-bottom: 170px
         }
         .signature {
             text-align: right;
@@ -219,23 +228,23 @@
     $quote = $payment->quote;
 @endphp
 <div class="page">
-    <header class="header">
+    {{-- <header class="header">
         <div class="logo-block">
             <img src="images/crowlogo.png" alt="{{ $companyName }} logo">
         </div>
-    </header>
+    </header> --}}
 
     <section class="title-block">
         <div class="doc-title">Invoice</div>
         <div class="doc-meta">
-            <div><strong>Invoice No:</strong>{{ $invoiceNo }}</div>
-            <div><strong>Date:</strong>{{ $issuedDate?->format('d M Y') }}</div>
+            <div><strong>Invoice No : </strong>{{ $invoiceNo }}</div>
+            <div><strong>Date : </strong>{{ $issuedDate?->format('d M Y') }}</div>
             @if($quote?->quote_no)
-                <div><strong>Quote :</strong>{{ $quote->quote_no }}</div>
+                <div><strong>Quote : </strong>{{ $quote->quote_no }}</div>
             @endif
-            <div><strong>Type:</strong>{{ ucfirst($payment->type ?? 'Payment') }}</div>
+            <div><strong>Type : </strong>{{ ucfirst($payment->type ?? 'Payment') }}</div>
             @if(!empty($payment->method))
-                <div><strong>Method:</strong>{{ $payment->method }}</div>
+                <div><strong>Method : </strong>{{ $payment->method }}</div>
             @endif
         </div>
     </section>
@@ -280,7 +289,10 @@
         </table>
 
         <div class="totals">
-            <div class="row"><span>Amount Paid :</span><strong> LKR {{ number_format((float) $payment->amount, 2) }}</strong></div>
+            <div class="totals-row">
+                <div class="col1">Amount Paid</div>
+                <div class="col2">LKR {{ number_format((float) $payment->amount, 2) }}</div>
+            </div>
         </div>
     </section>
 
@@ -305,12 +317,6 @@
 
     <div class="footer" style="position: fixed; bottom: 10px; left: 0; right: 0;">
         <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
-            <div style="flex: 1;">
-                Thank you for your business.
-                @if(!empty($company['email']))
-                    For questions, contact {{ $company['email'] }}.
-                @endif
-            </div>
             <div style="text-align: right;">
                 <div style="border-top: 1px solid var(--border); padding-top: 6px; display: inline-block; min-width: 200px; text-align: center; color: var(--ink); font-size: 11px;">Authorized Signature</div>
             </div>

@@ -13,10 +13,9 @@ class TermsAndCondition extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
         'content',
         'number',
-        'parent_id',
+        'secondary_terms',
         'sort_order',
         'is_active',
     ];
@@ -26,6 +25,7 @@ class TermsAndCondition extends Model
         return [
             'is_active' => 'boolean',
             'sort_order' => 'integer',
+            'secondary_terms' => 'array',
         ];
     }
 
@@ -45,15 +45,6 @@ class TermsAndCondition extends Model
         return $this->hasMany(TermsAndCondition::class, 'parent_id')
             ->orderBy('sort_order')
             ->orderBy('number');
-    }
-
-    /**
-     * Get all payments associated with this term
-     */
-    public function payments(): BelongsToMany
-    {
-        return $this->belongsToMany(Payment::class, 'payment_terms')
-            ->withTimestamps();
     }
 
     /**
@@ -79,8 +70,7 @@ class TermsAndCondition extends Model
      */
     public function getDisplayNameAttribute(): string
     {
-        $displayText = $this->title ?? $this->content;
-        return $this->number ? "{$this->number}. {$displayText}" : $displayText;
+        return $this->number ? "{$this->number}. {$this->content}" : $this->content;
     }
 
     /**
@@ -94,5 +84,69 @@ class TermsAndCondition extends Model
             $descendants = array_merge($descendants, $child->getAllDescendants());
         }
         return $descendants;
+    }
+
+    /**
+     * Get formatted terms for display with auto-generated numbering
+     * Returns array of terms with formatted numbers (1, 1.1, 1.2, etc.)
+     */
+    public function getFormattedTerms(): array
+    {
+        $formattedTerms = [];
+
+        // Add main term as number 1
+        $formattedTerms[] = [
+            'number' => '1',
+            'content' => $this->content,
+            'is_main' => true,
+        ];
+
+        // Add secondary terms with numbering 1.1, 1.2, etc.
+        $secondaryTerms = $this->secondary_terms ?? [];
+        foreach ($secondaryTerms as $index => $secondary) {
+            $formattedTerms[] = [
+                'number' => '1.' . ($index + 1),
+                'content' => $secondary['content'] ?? '',
+                'is_main' => false,
+            ];
+        }
+
+        return $formattedTerms;
+    }
+
+    /**
+     * Static method to get all terms formatted for a list of term IDs
+     * Used when displaying terms in quote/invoice
+     * Main term: 1, 2, 3...
+     * Secondary terms: 1.1, 1.2, 2.1, 2.2...
+     */
+    public static function getFormattedTermsForIds(array $termIds): array
+    {
+        $allTerms = [];
+        $mainNumber = 1;
+
+        foreach ($termIds as $termId) {
+            $term = self::find($termId);
+            if (!$term) continue;
+
+            // Get formatted terms for this main term
+            $formatted = $term->getFormattedTerms();
+
+            // Renumber based on position in the list
+            foreach ($formatted as &$item) {
+                $originalNumber = $item['number'];
+                if ($originalNumber === '1') {
+                    // Main term: 1, 2, 3, etc.
+                    $item['number'] = (string) $mainNumber;
+                } else {
+                    // Secondary term: 1.1, 1.2, 2.1, 2.2, etc.
+                    $item['number'] = $mainNumber . '.' . substr($originalNumber, 2);
+                }
+                $allTerms[] = $item;
+            }
+            $mainNumber++;
+        }
+
+        return $allTerms;
     }
 }

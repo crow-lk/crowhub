@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\TermsAndCondition\Schemas;
 
-use App\Models\TermsAndCondition;
 use Filament\Forms;
+use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -14,30 +14,9 @@ class TermsAndConditionForm
         return $schema
             ->columns(1)
             ->components([
-                Section::make('Term Details')
-                    ->columns(2)
+                Section::make('Main Term')
+                    ->columns(1)
                     ->components([
-                        Forms\Components\TextInput::make('number')
-                            ->label('Number')
-                            ->placeholder('e.g., 1, 1.1, 1.2, 2, 2.1')
-                            ->helperText('Hierarchical number (e.g., 1 for main, 1.1 for sub-item)')
-                            ->maxLength(20),
-                        Forms\Components\TextInput::make('title')
-                            ->label('Title')
-                            ->maxLength(255)
-                            ->placeholder('Optional short title'),
-                        Forms\Components\Select::make('parent_id')
-                            ->label('Parent Term')
-                            ->placeholder('None (Root level)')
-                            ->options(function () {
-                                return TermsAndCondition::roots()
-                                    ->get()
-                                    ->mapWithKeys(fn ($term) => [$term->id => $term->display_name])
-                                    ->toArray();
-                            })
-                            ->searchable()
-                            ->preload()
-                            ->native(false),
                         Forms\Components\TextInput::make('sort_order')
                             ->label('Sort Order')
                             ->numeric()
@@ -61,6 +40,30 @@ class TermsAndConditionForm
                                 'redo',
                             ])
                             ->columnSpanFull(),
+                    ]),
+                Section::make('Secondary Terms')
+                    ->description('Add secondary terms that will be linked to this main term')
+                    ->schema([
+                        Repeater::make('secondary_terms')
+                            ->label('')
+                            ->schema([
+                                Forms\Components\RichEditor::make('content')
+                                    ->label('Content')
+                                    ->required()
+                                    ->toolbarButtons([
+                                        'bold',
+                                        'italic',
+                                        'underline',
+                                        'bulletList',
+                                        'orderedList',
+                                        'undo',
+                                        'redo',
+                                    ])
+                                    ->columnSpanFull(),
+                            ])
+                            ->columns(1)
+                            ->collapsible()
+                            ->itemLabel(fn (array $state, $livewire): string => 'Term ' . (array_search($state, $livewire->data['secondary_terms'] ?? [], true) + 1))
                     ]),
                 Section::make('Status')
                     ->columns(1)

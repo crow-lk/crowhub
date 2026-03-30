@@ -15,21 +15,10 @@ class TermsAndConditionsTable
     {
         return $table
             ->columns([
-                TextColumn::make('number')
-                    ->label('Number')
-                    ->sortable()
-                    ->width('80px'),
-                TextColumn::make('title')
-                    ->label('Title')
-                    ->searchable()
-                    ->limit(50),
                 TextColumn::make('content')
                     ->label('Content')
                     ->limit(100)
                     ->html(),
-                TextColumn::make('parent.title')
-                    ->label('Parent')
-                    ->placeholder('None'),
                 BooleanColumn::make('is_active')
                     ->label('Active')
                     ->sortable(),

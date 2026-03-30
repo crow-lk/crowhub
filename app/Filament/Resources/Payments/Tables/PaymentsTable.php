@@ -60,7 +60,7 @@ class PaymentsTable
             ])
             ->recordActions([
                 Action::make('Download PDF')
-                    ->url(fn(Payment $record) => route('admin.payments.invoice.pdf', $record->id))
+                    ->url(fn(Payment $record) => route('admin.payments.invoice', $record->id))
                     ->icon('heroicon-o-printer')
                     ->label('Invoice'),
                 ViewAction::make(),

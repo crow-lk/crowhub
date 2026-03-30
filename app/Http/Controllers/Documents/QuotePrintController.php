@@ -10,7 +10,10 @@ class QuotePrintController extends Controller
 {
     public function __invoke(Quote $quote)
     {
-        $quote->loadMissing(['lead', 'items', 'termsAndConditions', 'termsAndConditions.parent']);
+        // Increase memory limit for PDF generation
+        ini_set('memory_limit', '512M');
+
+        $quote->loadMissing(['lead', 'items', 'termsAndConditions']);
 
         // Generate PDF
         $pdf = Pdf::loadView('documents.quotation', [

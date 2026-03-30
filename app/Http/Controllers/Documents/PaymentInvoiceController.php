@@ -11,7 +11,10 @@ class PaymentInvoiceController extends Controller
 {
     public function __invoke(Payment $payment)
     {
-        $payment->loadMissing(['lead', 'quote', 'termsAndConditions', 'termsAndConditions.parent']);
+        // Increase memory limit for PDF generation
+        ini_set('memory_limit', '512M');
+
+        $payment->loadMissing(['lead', 'quote', 'termsAndConditions']);
 
         // Generate PDF
         $pdf = Pdf::loadView('documents.payment-invoice', [

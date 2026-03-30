@@ -212,7 +212,7 @@
     </style>
 </head>
 <body>
-<img src="{{ asset('images/newbg.png') }}" alt="Background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+<img src="images/newbg.png" alt="Background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
 @php
     $companyName = $company['name'] ?? config('app.name', 'Crow.lk');
     $invoiceNo = 'INV-' . str_pad((string) $payment->id, 5, '0', STR_PAD_LEFT);
@@ -300,12 +300,14 @@
     <section class="terms">
         <div class="terms-title">Terms & Conditions</div>
         <div class="terms-content">
-            @foreach($payment->termsAndConditions as $index => $term)
-                <p style="@if($term->parent_id) padding-left: 20px; @endif">{{ $term->number ? $term->number . '. ' : '' }}{{ strip_tags($term->content) }}</p>
+            @php
+                $allTerms = \App\Models\TermsAndCondition::getFormattedTermsForIds($payment->termsAndConditions->pluck('id')->toArray());
+            @endphp
+            @foreach($allTerms as $term)
+                <p style="@if(!$term['is_main']) padding-left: 20px; @endif">{{ $term['number'] }}. {{ strip_tags($term['content']) }}</p>
             @endforeach
         </div>
     </section>
-    @else
     @endif
 
     <div class="footer" style="position: fixed; bottom: 10px; left: 0; right: 0;">

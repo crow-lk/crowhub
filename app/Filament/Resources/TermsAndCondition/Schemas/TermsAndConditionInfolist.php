@@ -12,27 +12,26 @@ class TermsAndConditionInfolist
     public static function configure(Schema $schema): Schema
     {
         return $schema
-            ->columns(2)
+            ->columns(1)
             ->components([
                 Section::make('Term Details')
-                    ->columns(2)
                     ->schema([
-                        Components\TextEntry::make('number')
-                            ->label('Number'),
-                        Components\TextEntry::make('title')
-                            ->label('Title'),
-                        Components\TextEntry::make('parent.title')
-                            ->label('Parent Term')
-                            ->placeholder('None (Root level)'),
                         Components\TextEntry::make('sort_order')
                             ->label('Sort Order'),
                     ]),
                 Section::make('Content')
                     ->schema([
                         Components\TextEntry::make('content')
-                            ->label('')
+                            ->label('Main Term')
                             ->html()
                             ->prose(),
+                        Components\RepeatableEntry::make('secondary_terms')
+                            ->schema([
+                                Components\TextEntry::make('content')
+                                    ->label('Content')
+                                    ->html()
+                                    ->prose(),
+                            ]),
                     ]),
                 Section::make('Status')
                     ->columns(2)

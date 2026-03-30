@@ -219,7 +219,7 @@
     </style>
 </head>
 <body>
-<img src="{{ asset('images/newbg.png') }}" alt="Background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+<img src="images/newbg.png" alt="Background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
 @php
     $companyName = $company['name'] ?? config('app.name', 'Crow.lk');
     $issuedDate = $quote->created_at ?? now();

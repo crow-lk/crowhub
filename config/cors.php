@@ -7,6 +7,7 @@ return [
 
     'allowed_origins' => [
         env('FRONTEND_ORIGIN', 'https://frontend.crowhub.test'),
+        'https://www.nominatedconstructions.au',
     ],
 
     'allowed_origins_patterns' => [],

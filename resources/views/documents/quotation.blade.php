@@ -297,10 +297,12 @@
                 <div class="col1">Subtotal</div>
                 <div class="col2">LKR {{ number_format((float) $quote->subtotal, 2) }}</div>
             </div>
+            @if($quote->discount > 0)
             <div class="totals-row">
                 <div class="col1">Discount</div>
                 <div class="col2">LKR {{ number_format((float) $quote->discount, 2) }}</div>
             </div>
+            @endif
             <div class="totals-row">
                 <div class="col1">Total</div>
                 <div class="col2">LKR {{ number_format((float) $quote->total, 2) }}</div>

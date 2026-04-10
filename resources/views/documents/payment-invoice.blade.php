@@ -264,8 +264,6 @@
             <thead>
             <tr>
                 <th>Description</th>
-                <th class="num">Qty</th>
-                <th class="num">Unit Price</th>
                 <th class="num">Amount</th>
             </tr>
             </thead>
@@ -274,8 +272,6 @@
                 <td>
                     Payment for {{ $quote?->quote_no ? 'Quote #' . $quote->quote_no : 'project services' }}
                 </td>
-                <td class="num">1</td>
-                <td class="num">LKR {{ number_format((float) $payment->amount, 2) }}</td>
                 <td class="num">LKR {{ number_format((float) $payment->amount, 2) }}</td>
             </tr>
             </tbody>

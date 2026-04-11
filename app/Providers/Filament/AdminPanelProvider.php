@@ -2,9 +2,11 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\PromotionalMessages;
 use App\Filament\Pages\SendSingleSms;
 use App\Filament\Widgets\LeadStats;
 use App\Filament\Widgets\MaintenanceHealth;
+use App\Filament\Widgets\MonthlyPaymentsChart;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -45,12 +47,14 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Dashboard::class,
                 SendSingleSms::class,
+                PromotionalMessages::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
                 AccountWidget::class,
                 LeadStats::class,
                 MaintenanceHealth::class,
+                MonthlyPaymentsChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

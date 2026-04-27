@@ -212,7 +212,7 @@
     </style>
 </head>
 <body>
-<img src="images/newbg.png" alt="Background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+<img src="images/bg.png" alt="Background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
 @php
     $companyName = $company['name'] ?? config('app.name', 'Crow.lk');
     $invoiceNo = 'INV-' . str_pad((string) $payment->id, 5, '0', STR_PAD_LEFT);
@@ -285,12 +285,15 @@
         </div>
     </section>
 
-    @if(!empty($payment->note))
-        <section class="section">
-            <div class="section-title">Notes</div>
-            <div class="panel">{{ $payment->note }}</div>
-        </section>
-    @endif
+     @if(!empty($payment->note))
+         <section class="section">
+             <div class="section-title">Notes</div>
+             <div style="color: var(--ink); line-height: 1.6; position: relative; padding-left: 20px;">
+                 <span style="position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background-color: var(--accent);"></span>
+                 {{ $payment->note }}
+             </div>
+         </section>
+     @endif
 
     @if($payment->termsAndConditions->count() > 0)
     <section class="terms">
@@ -306,11 +309,9 @@
     </section>
     @endif
 
-    <div class="footer" style="position: fixed; bottom: 10px; left: 0; right: 0;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
-            <div style="text-align: right;">
-                <div style="border-top: 1px solid var(--border); padding-top: 6px; display: inline-block; min-width: 200px; text-align: center; color: var(--ink); font-size: 11px;">Authorized Signature</div>
-            </div>
+     <div class="footer" style="position: fixed; bottom: -80px; left: 0; right: 0;">
+        <div style="text-align: center; font-size: 13px; color: var(--ink); line-height: 1.6;">
+            This invoice has been generated electronically and is valid without a signature.
         </div>
     </div>
 </div>

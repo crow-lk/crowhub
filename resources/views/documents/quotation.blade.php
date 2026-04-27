@@ -219,7 +219,7 @@
     </style>
 </head>
 <body>
-<img src="images/newbg.png" alt="Background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+<img src="images/bg.png" alt="Background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
 @php
     $companyName = $company['name'] ?? config('app.name', 'Crow.lk');
     $issuedDate = $quote->created_at ?? now();
@@ -324,11 +324,9 @@
     </section>
     @endif
 
-    <div class="footer" style="position: fixed; bottom: 10px; left: 0; right: 0;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
-            <div style="text-align: right;">
-                <div style="border-top: 1px solid var(--border); padding-top: 6px; display: inline-block; min-width: 200px; text-align: center; color: var(--ink); font-size: 11px;">Authorized Signature</div>
-            </div>
+     <div class="footer" style="position: fixed; bottom: -80px; left: 0; right: 0;">
+        <div style="text-align: center; font-size: 13px; color: var(--ink); line-height: 1.6;">
+            This quotation has been generated electronically and is valid without a signature.
         </div>
     </div>
 </div>

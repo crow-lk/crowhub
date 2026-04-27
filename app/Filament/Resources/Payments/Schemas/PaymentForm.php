@@ -23,10 +23,17 @@ class PaymentForm
                             ->searchable()
                             ->required()
                             ->preload()
-                            ->native(false),
+                            ->native(false)
+                            ->afterStateUpdated(function (callable $set) {
+                                $set('quote_id', null);
+                            }),
                         Forms\Components\Select::make('quote_id')
                             ->label('Related quote')
-                            ->relationship('quote', 'quote_no')
+                            ->relationship('quote', 'quote_no', function ($query, $get) {
+                                if ($leadId = $get('lead_id')) {
+                                    $query->where('lead_id', $leadId);
+                                }
+                            })
                             ->searchable()
                             ->preload()
                             ->native(false)

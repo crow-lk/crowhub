@@ -20,7 +20,9 @@ class SmsTemplateResource extends Resource
 {
     protected static ?string $model = SmsTemplate::class;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Messaging';
+    protected static string|UnitEnum|null $navigationGroup = 'Settings';
+
+    protected static ?int $navigationSort = 40;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChatBubbleLeftRight;
 

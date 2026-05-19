@@ -25,6 +25,15 @@ class MaintenanceContractRelationManager extends RelationManager
         return $schema
             ->columns(2)
             ->components([
+                Forms\Components\CheckboxList::make('services')
+                    ->relationship(
+                        'services',
+                        'name',
+                        fn ($query) => $query->where('is_active', true)->orderBy('name'),
+                    )
+                    ->required()
+                    ->columns(2)
+                    ->columnSpanFull(),
                 Forms\Components\DatePicker::make('start_date')
                     ->required(),
                 Forms\Components\TextInput::make('monthly_fee')
@@ -58,12 +67,16 @@ class MaintenanceContractRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('services_list')
+                    ->label('Services')
+                    ->state(fn ($record): string => $record->services->pluck('name')->join(', '))
+                    ->badge(),
                 Tables\Columns\TextColumn::make('monthly_fee')
                     ->money('lkr')
                     ->label('Monthly fee'),
                 Tables\Columns\TextColumn::make('billing_day')
                     ->label('Billing day'),
-                Tables\Columns\TextColumn::make('statusInfo.next_due_date')
+                Tables\Columns\TextColumn::make('next_due_date')
                     ->label('Next due')
                     ->state(fn ($record) => optional($record->statusInfo()['next_due_date'])->toDateString())
                     ->badge()

@@ -21,6 +21,11 @@ class MaintenanceContractsTable
                     ->label('Lead')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('services_list')
+                    ->label('Services')
+                    ->state(fn ($record): string => $record->services->pluck('name')->join(', '))
+                    ->badge()
+                    ->toggleable(),
                 TextColumn::make('status')
                     ->badge()
                     ->sortable(),
@@ -30,7 +35,7 @@ class MaintenanceContractsTable
                     ->sortable(),
                 TextColumn::make('billing_day')
                     ->label('Billing day'),
-                TextColumn::make('statusInfo.next_due_date')
+                TextColumn::make('next_due_date')
                     ->label('Next due')
                     ->state(fn ($record) => optional($record->statusInfo()['next_due_date'])->toFormattedDateString())
                     ->badge()

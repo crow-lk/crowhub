@@ -11,11 +11,11 @@ use App\Filament\Resources\Quotes\Schemas\QuoteInfolist;
 use App\Filament\Resources\Quotes\Tables\QuotesTable;
 use App\Models\Quote;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class QuoteResource extends Resource
 {
@@ -24,6 +24,8 @@ class QuoteResource extends Resource
     protected static ?string $recordTitleAttribute = 'quote_no';
 
     protected static string|UnitEnum|null $navigationGroup = 'Sales';
+
+    protected static ?int $navigationSort = 10;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 

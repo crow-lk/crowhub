@@ -6,6 +6,8 @@ use App\Filament\Resources\Clients\Pages\CreateClient;
 use App\Filament\Resources\Clients\Pages\EditClient;
 use App\Filament\Resources\Clients\Pages\ListClients;
 use App\Filament\Resources\Clients\Pages\ViewClient;
+use App\Filament\Resources\Clients\RelationManagers\ProjectsRelationManager;
+use App\Filament\Resources\Clients\RelationManagers\SocialMediaCampaignsRelationManager;
 use App\Filament\Resources\Clients\Schemas\ClientForm;
 use App\Filament\Resources\Clients\Schemas\ClientInfolist;
 use App\Filament\Resources\Clients\Tables\ClientsTable;
@@ -23,7 +25,9 @@ class ClientResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Clients';
+    protected static string|UnitEnum|null $navigationGroup = 'CRM';
+
+    protected static ?int $navigationSort = 10;
 
     protected static ?string $recordTitleAttribute = 'lead.name';
 
@@ -45,7 +49,8 @@ class ClientResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ProjectsRelationManager::class,
+            SocialMediaCampaignsRelationManager::class,
         ];
     }
 

@@ -15,17 +15,19 @@ use App\Filament\Resources\Leads\Schemas\LeadInfolist;
 use App\Filament\Resources\Leads\Tables\LeadsTable;
 use App\Models\Lead;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class LeadResource extends Resource
 {
     protected static ?string $model = Lead::class;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Sales';
+    protected static string|UnitEnum|null $navigationGroup = 'CRM';
+
+    protected static ?int $navigationSort = 20;
 
     protected static ?string $recordTitleAttribute = 'name';
 

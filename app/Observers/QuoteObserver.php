@@ -13,8 +13,7 @@ class QuoteObserver
         protected QuoteNumberGenerator $numberGenerator,
         protected QuoteCalculator $calculator,
         protected SmsAutomation $smsAutomation,
-    ) {
-    }
+    ) {}
 
     public function creating(Quote $quote): void
     {
@@ -35,5 +34,38 @@ class QuoteObserver
         } elseif ($shouldSendForNewRecord) {
             $this->smsAutomation->sendQuoteStatusMessage($quote, $quote->status);
         }
+
+        if ($quote->status === 'accepted' && ($statusChanged || $shouldSendForNewRecord)) {
+            $this->createProjectForAcceptedQuote($quote);
+        }
+    }
+
+    protected function createProjectForAcceptedQuote(Quote $quote): void
+    {
+        if ($quote->project()->exists()) {
+            return;
+        }
+
+        $lead = $quote->lead()->with('client')->first();
+
+        if (! $lead) {
+            return;
+        }
+
+        $client = $lead->client()->firstOrCreate(
+            ['lead_id' => $lead->id],
+            [
+                'onboarded_at' => now(),
+                'status' => 'active',
+            ],
+        );
+
+        $quote->project()->create([
+            'client_id' => $client->id,
+            'lead_id' => $lead->id,
+            'name' => $lead->company ?: $lead->name,
+            'status' => 'active',
+            'start_date' => now(),
+        ]);
     }
 }

@@ -26,10 +26,22 @@ class PaymentForm
                             ->native(false)
                             ->afterStateUpdated(function (callable $set) {
                                 $set('quote_id', null);
+                                $set('social_media_campaign_id', null);
                             }),
                         Forms\Components\Select::make('quote_id')
                             ->label('Related quote')
                             ->relationship('quote', 'quote_no', function ($query, $get) {
+                                if ($leadId = $get('lead_id')) {
+                                    $query->where('lead_id', $leadId);
+                                }
+                            })
+                            ->searchable()
+                            ->preload()
+                            ->native(false)
+                            ->placeholder('Optional'),
+                        Forms\Components\Select::make('social_media_campaign_id')
+                            ->label('Related social media campaign')
+                            ->relationship('socialMediaCampaign', 'name', function ($query, $get) {
                                 if ($leadId = $get('lead_id')) {
                                     $query->where('lead_id', $leadId);
                                 }
@@ -89,7 +101,7 @@ class PaymentForm
             $termContent = strip_tags($term->content);
             // Truncate content if too long
             if (strlen($termContent) > 80) {
-                $termContent = substr($termContent, 0, 80) . '...';
+                $termContent = substr($termContent, 0, 80).'...';
             }
 
             $options[$term->id] = $termContent;

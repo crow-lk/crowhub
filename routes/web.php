@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Documents\PaymentInvoiceController;
+use App\Http\Controllers\Documents\ProjectInvoiceController;
 use App\Http\Controllers\Documents\QuotePrintController;
 use App\Http\Controllers\QuoteTotalsController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('admin.quotes.print');
 
     Route::get('admin/payments/{payment}/invoice', PaymentInvoiceController::class)->name('admin.payments.invoice');
+
+    Route::get('admin/project-invoices/{invoice}', ProjectInvoiceController::class)->name('admin.project-invoices.show');
 });
 
 require __DIR__.'/settings.php';

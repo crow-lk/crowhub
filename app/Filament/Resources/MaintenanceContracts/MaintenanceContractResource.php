@@ -7,22 +7,25 @@ use App\Filament\Resources\MaintenanceContracts\Pages\EditMaintenanceContract;
 use App\Filament\Resources\MaintenanceContracts\Pages\ListMaintenanceContracts;
 use App\Filament\Resources\MaintenanceContracts\Pages\ViewMaintenanceContract;
 use App\Filament\Resources\MaintenanceContracts\RelationManagers\PaymentsRelationManager;
+use App\Filament\Resources\MaintenanceContracts\RelationManagers\SocialMediaCampaignsRelationManager;
 use App\Filament\Resources\MaintenanceContracts\Schemas\MaintenanceContractForm;
 use App\Filament\Resources\MaintenanceContracts\Schemas\MaintenanceContractInfolist;
 use App\Filament\Resources\MaintenanceContracts\Tables\MaintenanceContractsTable;
 use App\Models\MaintenanceContract;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class MaintenanceContractResource extends Resource
 {
     protected static ?string $model = MaintenanceContract::class;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Operations';
+    protected static string|UnitEnum|null $navigationGroup = 'Jobs';
+
+    protected static ?int $navigationSort = 20;
 
     protected static ?string $recordTitleAttribute = 'lead.name';
 
@@ -47,6 +50,7 @@ class MaintenanceContractResource extends Resource
     {
         return [
             PaymentsRelationManager::class,
+            SocialMediaCampaignsRelationManager::class,
         ];
     }
 

@@ -18,6 +18,11 @@ class MaintenanceContractInfolist
                     ->components([
                         Infolists\Components\TextEntry::make('lead.name')
                             ->label('Lead'),
+                        Infolists\Components\TextEntry::make('services_list')
+                            ->label('Services')
+                            ->state(fn ($record): string => $record->services->pluck('name')->join(', '))
+                            ->badge()
+                            ->placeholder('-'),
                         Infolists\Components\TextEntry::make('start_date')
                             ->date()
                             ->label('Start date'),
@@ -32,7 +37,7 @@ class MaintenanceContractInfolist
                     ]),
                 Section::make('Next cycle')
                     ->components([
-                        Infolists\Components\TextEntry::make('statusInfo.next_due_date')
+                        Infolists\Components\TextEntry::make('next_due_date')
                             ->label('Next due date')
                             ->state(fn ($record) => optional($record->statusInfo()['next_due_date'])->toFormattedDateString()),
                         Infolists\Components\TextEntry::make('due_state')

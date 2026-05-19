@@ -11,17 +11,19 @@ use App\Filament\Resources\Payments\Schemas\PaymentInfolist;
 use App\Filament\Resources\Payments\Tables\PaymentsTable;
 use App\Models\Payment;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class PaymentResource extends Resource
 {
     protected static ?string $model = Payment::class;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Sales';
+    protected static string|UnitEnum|null $navigationGroup = 'Finance';
+
+    protected static ?int $navigationSort = 10;
 
     protected static ?string $recordTitleAttribute = 'id';
 

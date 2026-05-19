@@ -6,6 +6,7 @@ use App\Services\MaintenanceStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MaintenanceContract extends Model
@@ -39,6 +40,17 @@ class MaintenanceContract extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(MaintenancePayment::class, 'contract_id');
+    }
+
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(MaintenanceService::class, 'maintenance_contract_service')
+            ->withTimestamps();
+    }
+
+    public function socialMediaCampaigns(): HasMany
+    {
+        return $this->hasMany(SocialMediaCampaign::class);
     }
 
     public function statusInfo(): array

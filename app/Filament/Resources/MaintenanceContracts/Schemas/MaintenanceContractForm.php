@@ -23,6 +23,15 @@ class MaintenanceContractForm
                             ->required()
                             ->preload()
                             ->native(false),
+                        Forms\Components\CheckboxList::make('services')
+                            ->relationship(
+                                'services',
+                                'name',
+                                fn ($query) => $query->where('is_active', true)->orderBy('name'),
+                            )
+                            ->required()
+                            ->columns(2)
+                            ->helperText('Select the ongoing services covered by this contract.'),
                         Forms\Components\DatePicker::make('start_date')
                             ->required(),
                         Forms\Components\TextInput::make('monthly_fee')

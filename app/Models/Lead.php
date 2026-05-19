@@ -45,6 +45,16 @@ class Lead extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    public function socialMediaCampaigns(): HasMany
+    {
+        return $this->hasMany(SocialMediaCampaign::class);
+    }
+
     public function maintenanceContract(): HasOne
     {
         return $this->hasOne(MaintenanceContract::class);

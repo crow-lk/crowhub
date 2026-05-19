@@ -14,6 +14,7 @@ class Payment extends Model
     protected $fillable = [
         'lead_id',
         'quote_id',
+        'social_media_campaign_id',
         'amount',
         'type',
         'paid_date',
@@ -38,6 +39,11 @@ class Payment extends Model
     public function quote(): BelongsTo
     {
         return $this->belongsTo(Quote::class);
+    }
+
+    public function socialMediaCampaign(): BelongsTo
+    {
+        return $this->belongsTo(SocialMediaCampaign::class);
     }
 
     /**

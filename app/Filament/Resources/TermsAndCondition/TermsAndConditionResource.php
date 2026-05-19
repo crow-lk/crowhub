@@ -23,9 +23,9 @@ class TermsAndConditionResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Settings';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
+    protected static ?int $navigationSort = 10;
 
-    protected static ?int $navigationSort = 100;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
     public static function form(Schema $schema): Schema
     {

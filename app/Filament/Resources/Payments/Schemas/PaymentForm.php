@@ -26,11 +26,23 @@ class PaymentForm
                             ->native(false)
                             ->afterStateUpdated(function (callable $set) {
                                 $set('quote_id', null);
+                                $set('invoice_id', null);
                                 $set('social_media_campaign_id', null);
                             }),
                         Forms\Components\Select::make('quote_id')
                             ->label('Related quote')
                             ->relationship('quote', 'quote_no', function ($query, $get) {
+                                if ($leadId = $get('lead_id')) {
+                                    $query->where('lead_id', $leadId);
+                                }
+                            })
+                            ->searchable()
+                            ->preload()
+                            ->native(false)
+                            ->placeholder('Optional'),
+                        Forms\Components\Select::make('invoice_id')
+                            ->label('Related invoice')
+                            ->relationship('invoice', 'invoice_no', function ($query, $get) {
                                 if ($leadId = $get('lead_id')) {
                                     $query->where('lead_id', $leadId);
                                 }

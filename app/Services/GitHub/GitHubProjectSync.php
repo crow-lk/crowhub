@@ -2,6 +2,7 @@
 
 namespace App\Services\GitHub;
 
+use App\Models\ClientActivity;
 use App\Models\Project;
 use App\Models\ProjectTask;
 use Illuminate\Http\Client\Factory as HttpFactory;
@@ -61,6 +62,13 @@ class GitHubProjectSync
             $task->fill($this->preserveBillingState($task, $taskData))->save();
             $updated++;
         }
+
+        ClientActivity::recordFor(
+            $project,
+            'project',
+            'GitHub tasks synced',
+            "Created {$created}, updated {$updated}, skipped {$skipped}."
+        );
 
         return [
             'created' => $created,

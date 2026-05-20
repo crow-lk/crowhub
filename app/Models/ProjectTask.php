@@ -13,6 +13,7 @@ class ProjectTask extends Model
 
     protected $fillable = [
         'project_id',
+        'invoice_item_id',
         'github_item_id',
         'github_content_id',
         'github_task_url',
@@ -48,5 +49,10 @@ class ProjectTask extends Model
     public function invoiceItem(): HasOne
     {
         return $this->hasOne(ProjectInvoiceItem::class);
+    }
+
+    public function unifiedInvoiceItem(): BelongsTo
+    {
+        return $this->belongsTo(InvoiceItem::class, 'invoice_item_id');
     }
 }

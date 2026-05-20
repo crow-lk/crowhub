@@ -6,6 +6,7 @@ use App\Filament\Resources\SocialMediaCampaigns\Pages\CreateSocialMediaCampaign;
 use App\Filament\Resources\SocialMediaCampaigns\Pages\EditSocialMediaCampaign;
 use App\Filament\Resources\SocialMediaCampaigns\Pages\ListSocialMediaCampaigns;
 use App\Filament\Resources\SocialMediaCampaigns\Pages\ViewSocialMediaCampaign;
+use App\Filament\Resources\SocialMediaCampaigns\RelationManagers\InvoicesRelationManager;
 use App\Filament\Resources\SocialMediaCampaigns\RelationManagers\PaymentsRelationManager;
 use App\Filament\Resources\SocialMediaCampaigns\Schemas\SocialMediaCampaignForm;
 use App\Filament\Resources\SocialMediaCampaigns\Schemas\SocialMediaCampaignInfolist;
@@ -48,6 +49,7 @@ class SocialMediaCampaignResource extends Resource
     public static function getRelations(): array
     {
         return [
+            InvoicesRelationManager::class,
             PaymentsRelationManager::class,
         ];
     }

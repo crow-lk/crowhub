@@ -36,6 +36,21 @@ class Client extends Model
         return $this->hasMany(Project::class);
     }
 
+    public function jobs(): HasMany
+    {
+        return $this->hasMany(ClientJob::class);
+    }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function activities(): HasMany
+    {
+        return $this->hasMany(ClientActivity::class);
+    }
+
     public function socialMediaCampaigns(): HasMany
     {
         return $this->hasMany(SocialMediaCampaign::class);

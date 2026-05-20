@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\Projects\RelationManagers;
 
 use App\Models\Project;
+use App\Models\ProjectTask;
+use App\Services\Billing\InvoiceCreator;
 use App\Services\GitHub\GitHubProjectSync;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -16,6 +18,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Carbon;
 
 class TasksRelationManager extends RelationManager
 {
@@ -137,6 +140,73 @@ class TasksRelationManager extends RelationManager
                                 ->danger()
                                 ->send();
                         }
+                    }),
+                Action::make('createUnifiedInvoice')
+                    ->label('Create Unified Invoice')
+                    ->icon('heroicon-o-document-plus')
+                    ->form(function (): array {
+                        /** @var Project $project */
+                        $project = $this->getOwnerRecord();
+
+                        return [
+                            Forms\Components\DatePicker::make('billing_month')
+                                ->label('Billing month')
+                                ->default(now()->startOfMonth())
+                                ->live()
+                                ->required(),
+                            Forms\Components\CheckboxList::make('task_ids')
+                                ->label('Completed non-invoiced tasks')
+                                ->options(function (callable $get) use ($project): array {
+                                    $month = Carbon::parse($get('billing_month') ?? now())->startOfMonth();
+
+                                    return $project->tasks()
+                                        ->where('status', 'done')
+                                        ->whereNull('invoice_item_id')
+                                        ->whereNull('invoiced_at')
+                                        ->whereBetween('completed_at', [$month, $month->copy()->endOfMonth()])
+                                        ->orderBy('completed_at')
+                                        ->orderBy('title')
+                                        ->get()
+                                        ->mapWithKeys(fn (ProjectTask $task): array => [
+                                            $task->id => $task->title.' - LKR '.number_format((float) $task->amount, 2),
+                                        ])
+                                        ->toArray();
+                                })
+                                ->required()
+                                ->columns(1),
+                            Forms\Components\DatePicker::make('invoice_date')
+                                ->default(now())
+                                ->required(),
+                            Forms\Components\DatePicker::make('due_date')
+                                ->default(now()->addDays(7))
+                                ->required(),
+                            Forms\Components\Textarea::make('notes')
+                                ->rows(3),
+                        ];
+                    })
+                    ->action(function (array $data): void {
+                        /** @var Project $project */
+                        $project = $this->getOwnerRecord();
+                        $tasks = $project->tasks()
+                            ->whereIn('id', $data['task_ids'])
+                            ->where('status', 'done')
+                            ->whereNull('invoice_item_id')
+                            ->whereNull('invoiced_at')
+                            ->get();
+
+                        if ($tasks->isEmpty()) {
+                            Notification::make()->title('No billable tasks selected')->warning()->send();
+
+                            return;
+                        }
+
+                        $invoice = app(InvoiceCreator::class)->forProjectTasks($project, $tasks, $data);
+
+                        Notification::make()
+                            ->title('Unified invoice created')
+                            ->body($invoice->invoice_no)
+                            ->success()
+                            ->send();
                     }),
                 CreateAction::make(),
             ])

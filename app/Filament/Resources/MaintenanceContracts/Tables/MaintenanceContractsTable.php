@@ -3,10 +3,15 @@
 namespace App\Filament\Resources\MaintenanceContracts\Tables;
 
 use App\Filament\Resources\MaintenanceContracts\MaintenanceContractResource;
+use App\Models\MaintenanceContract;
+use App\Services\Billing\InvoiceCreator;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms;
+use Filament\Notifications\Notification;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -46,6 +51,33 @@ class MaintenanceContractsTable
                     ->options(MaintenanceContractResource::statuses()),
             ])
             ->recordActions([
+                Action::make('createMonthlyInvoice')
+                    ->label('Create Monthly Invoice')
+                    ->icon('heroicon-o-document-plus')
+                    ->visible(fn (MaintenanceContract $record): bool => $record->status === 'active')
+                    ->form([
+                        Forms\Components\DatePicker::make('billing_month')
+                            ->label('Billing month')
+                            ->default(now()->startOfMonth())
+                            ->required(),
+                        Forms\Components\DatePicker::make('invoice_date')
+                            ->default(now())
+                            ->required(),
+                        Forms\Components\DatePicker::make('due_date')
+                            ->default(now()->addDays(7))
+                            ->required(),
+                        Forms\Components\Textarea::make('notes')
+                            ->rows(3),
+                    ])
+                    ->action(function (MaintenanceContract $record, array $data): void {
+                        $invoice = app(InvoiceCreator::class)->forMaintenanceMonth($record, $data);
+
+                        Notification::make()
+                            ->title('Maintenance invoice created')
+                            ->body($invoice->invoice_no)
+                            ->success()
+                            ->send();
+                    }),
                 ViewAction::make(),
                 EditAction::make(),
             ])

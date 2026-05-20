@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Project extends Model
 {
@@ -57,5 +59,16 @@ class Project extends Model
     public function invoices(): HasMany
     {
         return $this->hasMany(ProjectInvoice::class);
+    }
+
+    public function job(): MorphOne
+    {
+        return $this->morphOne(ClientJob::class, 'jobable');
+    }
+
+    public function unifiedInvoices(): HasManyThrough
+    {
+        return $this->hasManyThrough(Invoice::class, ClientJob::class, 'jobable_id', 'client_job_id')
+            ->where('client_jobs.jobable_type', self::class);
     }
 }

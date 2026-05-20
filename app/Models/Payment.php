@@ -15,6 +15,7 @@ class Payment extends Model
         'lead_id',
         'quote_id',
         'social_media_campaign_id',
+        'invoice_id',
         'amount',
         'type',
         'paid_date',
@@ -44,6 +45,11 @@ class Payment extends Model
     public function socialMediaCampaign(): BelongsTo
     {
         return $this->belongsTo(SocialMediaCampaign::class);
+    }
+
+    public function invoice(): BelongsTo
+    {
+        return $this->belongsTo(Invoice::class);
     }
 
     /**

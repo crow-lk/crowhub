@@ -6,6 +6,9 @@ use App\Filament\Resources\Clients\Pages\CreateClient;
 use App\Filament\Resources\Clients\Pages\EditClient;
 use App\Filament\Resources\Clients\Pages\ListClients;
 use App\Filament\Resources\Clients\Pages\ViewClient;
+use App\Filament\Resources\Clients\RelationManagers\ActivitiesRelationManager;
+use App\Filament\Resources\Clients\RelationManagers\InvoicesRelationManager;
+use App\Filament\Resources\Clients\RelationManagers\JobsRelationManager;
 use App\Filament\Resources\Clients\RelationManagers\ProjectsRelationManager;
 use App\Filament\Resources\Clients\RelationManagers\SocialMediaCampaignsRelationManager;
 use App\Filament\Resources\Clients\Schemas\ClientForm;
@@ -49,6 +52,9 @@ class ClientResource extends Resource
     public static function getRelations(): array
     {
         return [
+            JobsRelationManager::class,
+            InvoicesRelationManager::class,
+            ActivitiesRelationManager::class,
             ProjectsRelationManager::class,
             SocialMediaCampaignsRelationManager::class,
         ];

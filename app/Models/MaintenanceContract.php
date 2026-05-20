@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class MaintenanceContract extends Model
 {
@@ -35,6 +37,17 @@ class MaintenanceContract extends Model
     public function lead(): BelongsTo
     {
         return $this->belongsTo(Lead::class);
+    }
+
+    public function job(): MorphOne
+    {
+        return $this->morphOne(ClientJob::class, 'jobable');
+    }
+
+    public function invoices(): HasManyThrough
+    {
+        return $this->hasManyThrough(Invoice::class, ClientJob::class, 'jobable_id', 'client_job_id')
+            ->where('client_jobs.jobable_type', self::class);
     }
 
     public function payments(): HasMany

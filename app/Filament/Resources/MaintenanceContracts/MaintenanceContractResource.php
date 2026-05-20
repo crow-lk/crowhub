@@ -6,6 +6,7 @@ use App\Filament\Resources\MaintenanceContracts\Pages\CreateMaintenanceContract;
 use App\Filament\Resources\MaintenanceContracts\Pages\EditMaintenanceContract;
 use App\Filament\Resources\MaintenanceContracts\Pages\ListMaintenanceContracts;
 use App\Filament\Resources\MaintenanceContracts\Pages\ViewMaintenanceContract;
+use App\Filament\Resources\MaintenanceContracts\RelationManagers\InvoicesRelationManager;
 use App\Filament\Resources\MaintenanceContracts\RelationManagers\PaymentsRelationManager;
 use App\Filament\Resources\MaintenanceContracts\RelationManagers\SocialMediaCampaignsRelationManager;
 use App\Filament\Resources\MaintenanceContracts\Schemas\MaintenanceContractForm;
@@ -49,6 +50,7 @@ class MaintenanceContractResource extends Resource
     public static function getRelations(): array
     {
         return [
+            InvoicesRelationManager::class,
             PaymentsRelationManager::class,
             SocialMediaCampaignsRelationManager::class,
         ];

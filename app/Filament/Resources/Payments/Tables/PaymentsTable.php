@@ -29,6 +29,10 @@ class PaymentsTable
                     ->label('Quote #')
                     ->toggleable()
                     ->searchable(),
+                TextColumn::make('invoice.invoice_no')
+                    ->label('Invoice #')
+                    ->toggleable()
+                    ->searchable(),
                 TextColumn::make('socialMediaCampaign.name')
                     ->label('Campaign')
                     ->toggleable()

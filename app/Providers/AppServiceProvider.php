@@ -6,15 +6,19 @@ use App\Models\Client;
 use App\Models\Lead;
 use App\Models\MaintenanceContract;
 use App\Models\Payment;
+use App\Models\Project;
 use App\Models\Quote;
 use App\Models\QuoteItem;
 use App\Models\SmsTemplate;
+use App\Models\SocialMediaCampaign;
 use App\Observers\ClientObserver;
 use App\Observers\LeadObserver;
 use App\Observers\MaintenanceContractObserver;
 use App\Observers\PaymentObserver;
+use App\Observers\ProjectObserver;
 use App\Observers\QuoteItemObserver;
 use App\Observers\QuoteObserver;
+use App\Observers\SocialMediaCampaignObserver;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -39,6 +43,8 @@ class AppServiceProvider extends ServiceProvider
         Payment::observe(PaymentObserver::class);
         Client::observe(ClientObserver::class);
         MaintenanceContract::observe(MaintenanceContractObserver::class);
+        Project::observe(ProjectObserver::class);
+        SocialMediaCampaign::observe(SocialMediaCampaignObserver::class);
 
         if (Schema::hasTable('sms_templates') && Schema::hasColumn('sms_templates', 'is_enabled')) {
             SmsTemplate::syncFromConfig();

@@ -21,6 +21,9 @@ class PaymentInfolist
                         Infolists\Components\TextEntry::make('quote.quote_no')
                             ->label('Quote #')
                             ->placeholder('-'),
+                        Infolists\Components\TextEntry::make('invoice.invoice_no')
+                            ->label('Invoice #')
+                            ->placeholder('-'),
                         Infolists\Components\TextEntry::make('amount')
                             ->money('lkr')
                             ->label('Amount'),

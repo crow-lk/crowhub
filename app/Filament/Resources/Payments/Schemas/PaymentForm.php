@@ -39,7 +39,22 @@ class PaymentForm
                             ->searchable()
                             ->preload()
                             ->native(false)
-                            ->placeholder('Optional'),
+                            ->placeholder('Optional')
+                            ->live()
+                            ->afterStateUpdated(function (callable $set, $state) {
+                                if ($state) {
+                                    $quote = \App\Models\Quote::find($state);
+                                    if ($quote) {
+                                        $set('amount', $quote->total);
+                                        $set('amount_to_pay', $quote->total - $quote->paidAmount());
+                                        $set('to_pay', $quote->total - $quote->paidAmount());
+                                    }
+                                } else {
+                                    $set('amount', null);
+                                    $set('amount_to_pay', null);
+                                    $set('to_pay', null);
+                                }
+                            }),
                         Forms\Components\Select::make('invoice_id')
                             ->label('Related invoice')
                             ->relationship('invoice', 'invoice_no', function ($query, $get) {
@@ -50,7 +65,21 @@ class PaymentForm
                             ->searchable()
                             ->preload()
                             ->native(false)
-                            ->placeholder('Optional'),
+                            ->placeholder('Optional')
+                            ->afterStateUpdated(function (callable $set, $state) {
+                                if ($state) {
+                                    $invoice = \App\Models\Invoice::find($state);
+                                    if ($invoice) {
+                                        $set('amount', $invoice->total);
+                                        $set('amount_to_pay', $invoice->total - $invoice->paidAmount());
+                                        $set('to_pay', $invoice->total - $invoice->paidAmount());
+                                    }
+                                } else {
+                                    $set('amount', null);
+                                    $set('amount_to_pay', null);
+                                    $set('to_pay', null);
+                                }
+                            }),
                         Forms\Components\Select::make('social_media_campaign_id')
                             ->label('Related social media campaign')
                             ->relationship('socialMediaCampaign', 'name', function ($query, $get) {
@@ -64,14 +93,27 @@ class PaymentForm
                             ->placeholder('Optional'),
                         Forms\Components\TextInput::make('amount')
                             ->numeric()
+                            ->disabled()
+                            ->prefix('LKR ')
+                            ->label('From Quote/Invoice')
+                            ->live(),
+                        Forms\Components\TextInput::make('amount_to_pay')
+                            ->numeric()
                             ->required()
-                            ->minValue(0.01)
-                            ->prefix('LKR '),
+                            ->minValue(0)
+                            ->prefix('LKR ')
+                            ->live(debounce: 500),
+                        Forms\Components\TextInput::make('to_pay')
+                            ->numeric()
+                            ->prefix('LKR ')
+                            ->disabled()
+                            ->helperText('Balance to pay')
+                            ->live(),
                         Forms\Components\Select::make('type')
                             ->options(PaymentResource::types())
                             ->required()
                             ->default('other'),
-                        Forms\Components\DatePicker::make('paid_date')
+                        Forms\Components\DatePicker::make('due_date')
                             ->required()
                             ->default(now()),
                         Forms\Components\TextInput::make('method')

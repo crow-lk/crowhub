@@ -17,6 +17,10 @@ class Payment extends Model
         'social_media_campaign_id',
         'invoice_id',
         'amount',
+        'amount_to_pay',
+        'amount_paid',
+        'to_pay',
+        'reference_number',
         'type',
         'paid_date',
         'method',
@@ -27,6 +31,9 @@ class Payment extends Model
     {
         return [
             'amount' => 'decimal:2',
+            'amount_to_pay' => 'decimal:2',
+            'amount_paid' => 'decimal:2',
+            'to_pay' => 'decimal:2',
             'paid_date' => 'date',
             'type' => 'string',
         ];

@@ -92,7 +92,7 @@ class Invoice extends Model
 
     public function paidAmount(): float
     {
-        return (float) $this->payments()->sum('amount');
+        return (float) $this->payments()->sum('amount_paid');
     }
 
     public function balanceDue(): float

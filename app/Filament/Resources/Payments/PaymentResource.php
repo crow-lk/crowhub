@@ -66,6 +66,7 @@ class PaymentResource extends Resource
         return [
             'advance' => 'Advance',
             'final' => 'Final',
+            'partial' => 'Partial',
             'other' => 'Other',
         ];
     }

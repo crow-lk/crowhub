@@ -216,7 +216,7 @@
 @php
     $companyName = $company['name'] ?? config('app.name', 'Crow.lk');
     $invoiceNo = 'INV-' . str_pad((string) $payment->id, 5, '0', STR_PAD_LEFT);
-    $issuedDate = $payment->paid_date ?? $payment->created_at;
+    $issuedDate = $payment->created_at;
     $lead = $payment->lead;
     $quote = $payment->quote;
 @endphp
@@ -279,8 +279,8 @@
 
         <div class="totals">
             <div class="totals-row">
-                <div class="col1">Amount Paid</div>
-                <div class="col2">LKR {{ number_format((float) $payment->amount, 2) }}</div>
+                <div class="col1">Amount Pending</div>
+                <div class="col2">LKR {{ number_format((float) $payment->amount_to_pay, 2) }}</div>
             </div>
         </div>
     </section>

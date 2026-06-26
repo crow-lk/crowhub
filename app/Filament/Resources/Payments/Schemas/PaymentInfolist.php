@@ -27,6 +27,15 @@ class PaymentInfolist
                         Infolists\Components\TextEntry::make('amount')
                             ->money('lkr')
                             ->label('Amount'),
+                        Infolists\Components\TextEntry::make('amount_to_pay')
+                            ->money('lkr')
+                            ->label('Amount to Pay'),
+                        Infolists\Components\TextEntry::make('amount_paid')
+                            ->money('lkr')
+                            ->label('Amount Paid'),
+                        Infolists\Components\TextEntry::make('to_pay')
+                            ->money('lkr')
+                            ->label('Balance'),
                         Infolists\Components\TextEntry::make('type')
                             ->badge()
                             ->label('Type'),

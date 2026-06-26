@@ -75,4 +75,14 @@ class Quote extends Model
     {
         return app(QuoteCalculator::class)->refreshTotals($this);
     }
+
+    public function paidAmount(): float
+    {
+        return (float) $this->payments()->sum('amount_paid');
+    }
+
+    public function balanceDue(): float
+    {
+        return max($this->total - $this->paidAmount(), 0);
+    }
 }

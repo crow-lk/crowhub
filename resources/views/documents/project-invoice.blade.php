@@ -211,10 +211,10 @@
         <div class="doc-meta">
             <div><strong>Invoice No :</strong> {{ $invoice->invoice_no }}</div>
             <div><strong>Project :</strong> {{ $project?->name ?? '-' }}</div>
-            <div><strong>Invoice Month :</strong> {{ $invoice->invoice_month?->format('F Y') ?? '-' }}</div>
+            {{-- <div><strong>Invoice Month :</strong> {{ $invoice->invoice_month?->format('F Y') ?? '-' }}</div> --}}
             <div><strong>Issued :</strong> {{ $invoice->issued_date?->format('d M Y') ?? '-' }}</div>
             <div><strong>Due :</strong> {{ $invoice->due_date?->format('d M Y') ?? '-' }}</div>
-            <div><strong>Status :</strong> {{ ucfirst($invoice->status) }}</div>
+            {{-- <div><strong>Status :</strong> {{ ucfirst($invoice->status) }}</div> --}}
         </div>
     </section>
 
@@ -223,13 +223,13 @@
         <div class="panel">
             <div class="client-name">{{ $lead?->name ?? 'N/A' }}</div>
             @if(!empty($lead?->company))
-                <div>{{ $lead->company }}</div>
+                <div style="margin-bottom: 4px;">{{ $lead->company }}</div>
             @endif
             @if(!empty($lead?->email))
-                <div>{{ $lead->email }}</div>
+                <div style="margin-bottom: 4px;">{{ $lead->email }}</div>
             @endif
             @if(!empty($lead?->phone))
-                <div>{{ $lead->phone }}</div>
+                <div style="margin-bottom: 4px;">{{ $lead->phone }}</div>
             @endif
         </div>
     </section>
@@ -303,11 +303,11 @@
     <section class="section">
         <div class="section-title">Payment Details</div>
         <div class="panel">
-            <strong>Account Number:</strong> {{ $bank['account_number'] ?? '007010350044' }}<br>
-            <strong>Account Name:</strong> {{ $bank['account_name'] ?? 'Crow.lk Pvt Ltd' }}<br>
-            <strong>Bank:</strong> {{ $bank['bank'] ?? 'HNB' }}<br>
-            <strong>Branch:</strong> {{ $bank['branch'] ?? 'Pettah' }}<br>
-            <strong>SWIFT Code:</strong> {{ $bank['swift_code'] ?? 'HBLILKLX' }}
+            <div style="margin-bottom: 4px;"><strong>Account Number:</strong> {{ $bank['account_number'] ?? '007010350044' }}</div>
+            <div style="margin-bottom: 4px;"><strong>Account Name:</strong> {{ $bank['account_name'] ?? 'Crow.lk Pvt Ltd' }}</div>
+            <div style="margin-bottom: 4px;"><strong>Bank:</strong> {{ $bank['bank'] ?? 'HNB' }}</div>
+            <div style="margin-bottom: 4px;"><strong>Branch:</strong> {{ $bank['branch'] ?? 'Pettah' }}</div>
+            <div><strong>SWIFT Code:</strong> {{ $bank['swift_code'] ?? 'HBLILKLX' }}</div>
         </div>
     </section>
 

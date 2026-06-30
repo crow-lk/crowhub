@@ -117,7 +117,7 @@ class InvoiceResource extends Resource
     public static function paymentForm(Invoice $invoice): array
     {
         return [
-            Forms\Components\TextInput::make('amount')
+            Forms\Components\TextInput::make('amount_paid')
                 ->numeric()
                 ->prefix('LKR ')
                 ->default($invoice->balanceDue())

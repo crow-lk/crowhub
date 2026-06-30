@@ -72,7 +72,7 @@
         .totals {
             margin-top: 16px;
             margin-left: auto;
-            width: 260px;
+            width: 280px;
             border: 1px solid #d7dbe2;
             padding: 12px 14px;
         }
@@ -103,8 +103,7 @@
 @php
     $companyName = $company['name'] ?? config('app.name', 'Crow.lk');
     $bank = $company['bank'] ?? [];
-    $project = $invoice->project;
-    $lead = $project?->client?->lead ?? $project?->lead;
+    $lead = $invoice->client?->lead ?? $invoice->lead;
     $paidAmount = $invoice->paidAmount();
     $balanceDue = $invoice->balanceDue();
 @endphp
@@ -123,11 +122,16 @@
     <div class="section">
         <div class="panel">
             <strong>Invoice No:</strong> {{ $invoice->invoice_no }}<br>
-            <strong>Project:</strong> {{ $project?->name ?? '-' }}<br>
-            <strong>Invoice Month:</strong> {{ $invoice->invoice_month?->format('F Y') }}<br>
-            <strong>Issued:</strong> {{ $invoice->issued_date?->format('d M Y') }}<br>
+            <strong>Job:</strong> {{ $invoice->job?->name ?? '-' }}<br>
+            @if($invoice->billing_month)
+                <strong>Billing Month:</strong> {{ $invoice->billing_month->format('F Y') }}<br>
+            @endif
+            <strong>Issued:</strong> {{ $invoice->invoice_date?->format('d M Y') }}<br>
             <strong>Due:</strong> {{ $invoice->due_date?->format('d M Y') }}<br>
-            <strong>Status:</strong> {{ ucfirst($invoice->status) }}
+            <strong>Status:</strong> {{ str($invoice->status)->replace('_', ' ')->title() }}
+            @if($invoice->paid_date)
+                <br><strong>Paid:</strong> {{ $invoice->paid_date->format('d M Y') }}
+            @endif
         </div>
     </div>
 
@@ -142,25 +146,22 @@
     </div>
 
     <div class="section">
-        <div class="section-title">Completed Tasks</div>
+        <div class="section-title">Invoice Items</div>
         <table>
             <thead>
             <tr>
-                <th>Task</th>
-                <th>Completed</th>
+                <th>Description</th>
+                <th class="num">Qty</th>
+                <th class="num">Unit Price</th>
                 <th class="num">Amount</th>
             </tr>
             </thead>
             <tbody>
             @foreach($invoice->items as $item)
                 <tr>
-                    <td>
-                        {{ $item->description }}
-                        @if($item->task?->github_task_url)
-                            <br><span class="muted">{{ $item->task->github_task_url }}</span>
-                        @endif
-                    </td>
-                    <td>{{ $item->task?->completed_at?->format('d M Y') ?? '-' }}</td>
+                    <td>{{ $item->description }}</td>
+                    <td class="num">{{ number_format((float) $item->quantity, 2) }}</td>
+                    <td class="num">LKR {{ number_format((float) $item->unit_price, 2) }}</td>
                     <td class="num">LKR {{ number_format((float) $item->amount, 2) }}</td>
                 </tr>
             @endforeach
@@ -168,7 +169,14 @@
         </table>
 
         <div class="totals">
-            <div class="total-row"><span>Total</span><span>LKR {{ number_format((float) $invoice->amount, 2) }}</span></div>
+            <div class="total-row"><span>Subtotal</span><span>LKR {{ number_format((float) $invoice->subtotal, 2) }}</span></div>
+            @if((float) $invoice->discount > 0)
+                <div class="total-row"><span>Discount</span><span>LKR {{ number_format((float) $invoice->discount, 2) }}</span></div>
+            @endif
+            @if((float) $invoice->tax > 0)
+                <div class="total-row"><span>Tax</span><span>LKR {{ number_format((float) $invoice->tax, 2) }}</span></div>
+            @endif
+            <div class="total-row"><span>Total</span><span>LKR {{ number_format((float) $invoice->total, 2) }}</span></div>
             <div class="total-row"><span>Paid</span><span>LKR {{ number_format($paidAmount, 2) }}</span></div>
             <div class="total-row"><span>Balance</span><span>LKR {{ number_format($balanceDue, 2) }}</span></div>
         </div>
@@ -182,26 +190,26 @@
                 <tr>
                     <th>Date</th>
                     <th>Method</th>
-                    <th class="num">Amount</th>
+                    <th>Reference</th>
+                    <th class="num">Amount Paid</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($invoice->payments as $payment)
+                    @php
+                        $paymentAmount = (float) $payment->amount_paid > 0
+                            ? (float) $payment->amount_paid
+                            : (((float) $payment->amount_to_pay === 0.0 && (float) $payment->to_pay === 0.0) ? (float) $payment->amount : 0.0);
+                    @endphp
                     <tr>
                         <td>{{ $payment->paid_date?->format('d M Y') }}</td>
                         <td>{{ $payment->method ?: '-' }}</td>
-                        <td class="num">LKR {{ number_format((float) $payment->amount, 2) }}</td>
+                        <td>{{ $payment->reference_number ?: '-' }}</td>
+                        <td class="num">LKR {{ number_format($paymentAmount, 2) }}</td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-        </div>
-    @endif
-
-    @if(!empty($invoice->notes))
-        <div class="section">
-            <div class="section-title">Notes</div>
-            <div class="panel">{{ $invoice->notes }}</div>
         </div>
     @endif
 
@@ -215,6 +223,13 @@
             <strong>SWIFT Code:</strong> {{ $bank['swift_code'] ?? 'HBLILKLX' }}
         </div>
     </div>
+
+    @if(!empty($invoice->notes))
+        <div class="section">
+            <div class="section-title">Notes</div>
+            <div class="panel">{{ $invoice->notes }}</div>
+        </div>
+    @endif
 </div>
 <div class="footer">This invoice has been generated electronically and is valid without a signature.</div>
 </body>

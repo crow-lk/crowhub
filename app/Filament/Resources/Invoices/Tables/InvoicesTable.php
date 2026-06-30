@@ -25,6 +25,11 @@ class InvoicesTable
                     ->options(InvoiceResource::statuses()),
             ])
             ->recordActions([
+                Action::make('print')
+                    ->label('Print')
+                    ->icon('heroicon-o-printer')
+                    ->url(fn (Invoice $record): string => route('admin.invoices.print', $record))
+                    ->openUrlInNewTab(),
                 Action::make('markSent')
                     ->label('Mark sent')
                     ->icon('heroicon-o-paper-airplane')
@@ -37,8 +42,14 @@ class InvoicesTable
                     ->form(fn (Invoice $record): array => InvoiceResource::paymentForm($record))
                     ->action(function (Invoice $record, array $data): void {
                         $record->payments()->create([
-                            ...$data,
-                            'lead_id' => $record->lead_id,
+                            'lead_id' => $record->lead_id ?? $record->client?->lead_id,
+                            'amount' => $record->total,
+                            'amount_to_pay' => $record->balanceDue(),
+                            'amount_paid' => $data['amount_paid'],
+                            'to_pay' => max($record->balanceDue() - (float) $data['amount_paid'], 0),
+                            'paid_date' => $data['paid_date'],
+                            'method' => $data['method'] ?? null,
+                            'note' => $data['note'] ?? null,
                             'type' => 'other',
                         ]);
 

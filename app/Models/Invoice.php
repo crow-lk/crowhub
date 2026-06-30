@@ -92,7 +92,19 @@ class Invoice extends Model
 
     public function paidAmount(): float
     {
-        return (float) $this->payments()->sum('amount_paid');
+        return (float) $this->payments()
+            ->get(['amount', 'amount_paid', 'amount_to_pay', 'to_pay'])
+            ->sum(function (Payment $payment): float {
+                if ((float) $payment->amount_paid > 0) {
+                    return (float) $payment->amount_paid;
+                }
+
+                if ((float) $payment->amount_to_pay === 0.0 && (float) $payment->to_pay === 0.0) {
+                    return (float) $payment->amount;
+                }
+
+                return 0.0;
+            });
     }
 
     public function balanceDue(): float

@@ -200,10 +200,10 @@
 @php
     $companyName = $company['name'] ?? config('app.name', 'Crow.lk');
     $bank = $company['bank'] ?? [];
-    $project = $invoice->project;
-    $lead = $project?->client?->lead ?? $project?->lead;
+    $lead = $invoice->client?->lead ?? $invoice->lead;
     $paidAmount = $invoice->paidAmount();
     $balanceDue = $invoice->balanceDue();
+    $project = $invoice->project;
 @endphp
 <div class="page">
     <section class="title-block">
@@ -263,7 +263,7 @@
         <div class="totals">
             <div class="totals-row">
                 <div class="col1">Total</div>
-                <div class="col2">LKR {{ number_format((float) $invoice->amount, 2) }}</div>
+                <div class="col2">LKR {{ number_format((float) $invoice->total, 2) }}</div>
             </div>
             <div class="totals-row">
                 <div class="col1">Paid</div>

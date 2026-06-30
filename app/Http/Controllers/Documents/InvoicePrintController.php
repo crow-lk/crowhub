@@ -26,10 +26,10 @@ class InvoicePrintController extends Controller
         ];
 
         if (! class_exists(Pdf::class)) {
-            return response()->view('documents.invoice', $data);
+            return response()->view('documents.project-invoice', $data);
         }
 
-        $pdf = Pdf::loadView('documents.invoice', $data);
+        $pdf = Pdf::loadView('documents.project-invoice', $data);
         $pdf->setPaper('a4', 'portrait');
 
         return response()->make(
